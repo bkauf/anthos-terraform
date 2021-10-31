@@ -18,7 +18,8 @@
 export AZURE_CLIENT = [name of Azure GCP Client]
 
 
-```gcloud alpha container azure clients create ${AZURE_CLIENT} \
+```
+gcloud alpha container azure clients create ${AZURE_CLIENT} \
   --location=${AZURE_REGION} \
   --tenant-id="${TENANT_ID}" \
   --application-id="${APPLICATION_ID}"
@@ -26,7 +27,7 @@ export AZURE_CLIENT = [name of Azure GCP Client]
 
 4. Get the Azure cert from GCP and then put into into Azure AD
 
-````
+```
 AZURE_CLIENT_CERT=$(gcloud alpha container azure clients get-public-cert --location=${AZURE__REGION} ${APP_NAME})
 ```
 
@@ -41,7 +42,7 @@ export SSH_PUBLIC_KEY=$(cat ${WORKDIR}/anthos-ssh-key.pub)
 ```
 
 6. Create your cluster
-
+```
 gcloud alpha container azure clusters create [cluster name] \
   --location us-east4 \
   --client "$APP_CLIENT" \
@@ -54,3 +55,4 @@ gcloud alpha container azure clusters create [cluster name] \
   --resource-group-id "$CLUSTER_RG_ID" \
   --vnet-id "$VNET_ID" \
   --subnet-id "$SUBNET_ID"
+  ```
