@@ -21,7 +21,7 @@ module "cluster-vnet" {
   name         = var.vnet_name
   region       = var.region
   vnet_resource_group = var.vnet_resource_group
-  aad_app_name        = module.aad-app.aad_app_name
+  aad_app_name        = var.application_name
   sp_obj_id           = module.aad-app.aad_app_sp_obj_id
   subscription_id     = module.aad-app.subscription_id
 
@@ -41,11 +41,14 @@ module "cluster-vnet" {
 
 locals {
   anthos-params = {
-    AZURE_REGION = var.region
-    CLUSTER_RG_ID = module.cluster-rg.resource_group_id
-    VNET_ID = module.cluster-vnet.vnet_id
-    CLUSTER_NAME = var.name
-    SUBNET_ID = module.cluster-vnet.subnet_id
+    AZURE_REGION    = var.region
+    APPLICATION_ID  = module.aad-app.aad_app_id
+    CLUSTER_RG_ID   = module.cluster-rg.resource_group_id
+    VNET_ID         = module.cluster-vnet.vnet_id
+    CLUSTER_NAME    = var.name
+    SUBNET_ID       = module.cluster-vnet.subnet_id
+    TENANT_ID       = module.cluster-rg.tenant_id
+    APP_CLIENT        = var.application_name
   }
 }
 resource "local_file" "outputdata" {

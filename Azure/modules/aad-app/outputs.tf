@@ -8,11 +8,6 @@ output "tenant_id" {
   value       = data.azurerm_subscription.current.tenant_id
 }
 
-output "aad_app_name" {
-  description = "The name of the aad app registration"
-  value       = azuread_application.aad_app.name
-}
-
 output "aad_app_id" {
   description = "The id of the aad app registration"
   value       = azuread_application.aad_app.application_id

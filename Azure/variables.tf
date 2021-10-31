@@ -18,9 +18,14 @@ variable "gcp_project" {
 variable "application_name" {
   description = "Azure Application Name. EX: Anthos-GKE"
   type        = string
-  default     = "anthos-gke-test"
+  default     = "anthos-gke-test2"
 }
 
+variable "name" {
+  description = "Name for the Cluster Resource Group"
+  type        = string
+  default     = "bkauf-test-clusters"
+}
 variable "vnet_name" {
   description = "Name of VNet to create"
   type        = string
@@ -29,22 +34,18 @@ variable "vnet_name" {
 variable "vnet_resource_group" {
   description = "Azure VNet resouce group"
   type        = string
-  default     = "bkauf-vnet-resource-group"
+  default     = "anthos-vnet-resource-group"
 }
-variable "name" {
-  description = "Name for the cluster"
-  type        = string
-  default     = "bkauf-test-cluster"
-}
+
 variable "role_admin" {
   description = "Name for the role admin"
   type        = string
-  default     = "anthos-role-admin"
+  default     = "anthos-admin"
 }
 variable "role_vnet_admin" {
   description = "Name for the VNet role admin"
   type        = string
-  default     = "anthos-vnet-role-admin"
+  default     = "anthos-vnet-admin"
 }
 
 
