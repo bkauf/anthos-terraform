@@ -22,17 +22,17 @@ module "cluster-vnet" {
   region       = var.region
   vnet_resource_group = var.vnet_resource_group
   aad_app_name        = var.application_name
-  sp_obj_id           = module.aad-app.aad_app_sp_obj_id
-  subscription_id     = module.aad-app.subscription_id
+  sp_obj_id           = "${module.aad-app.aad_app_sp_obj_id}"
+  subscription_id     = "${module.aad-app.subscription_id}"
 
  # create_proxy = var.create_proxy
 }
 
  module "cluster-rg" {
   source = "./modules/cluster-rg"
-  name            = var.name
+  name            = var.cluster_rg
   region          = var.region
-  sp_obj_id       = module.aad-app.aad_app_sp_obj_id
+  sp_obj_id       = "${module.aad-app.aad_app_sp_obj_id}"
   owner           = var.owner
   tags            = local.tags
 }
@@ -45,7 +45,6 @@ locals {
     APPLICATION_ID  = module.aad-app.aad_app_id
     CLUSTER_RG_ID   = module.cluster-rg.resource_group_id
     VNET_ID         = module.cluster-vnet.vnet_id
-    CLUSTER_NAME    = var.name
     SUBNET_ID       = module.cluster-vnet.subnet_id
     TENANT_ID       = module.cluster-rg.tenant_id
     AZURE_CLIENT    = var.application_name

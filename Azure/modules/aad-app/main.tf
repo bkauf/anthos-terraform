@@ -24,3 +24,13 @@ resource "azurerm_role_assignment" "user_access_admin" {
   role_definition_name = "User Access Administrator"
   principal_id         = azuread_service_principal.aad_app.object_id
 }
+resource "azurerm_role_assignment" "key_vaule_admin" {
+  scope                = data.azurerm_subscription.current.id
+  role_definition_name = "Key Vault Administrator"
+  principal_id         = azuread_service_principal.aad_app.object_id
+}
+resource "azurerm_role_assignment" "contributor" {
+  scope                = data.azurerm_subscription.current.id
+  role_definition_name = "Contributor"
+  principal_id         = azuread_service_principal.aad_app.object_id
+}

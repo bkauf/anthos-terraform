@@ -56,12 +56,8 @@ resource "azurerm_subnet_nat_gateway_association" "default_subnet_nat_associatio
   nat_gateway_id = azurerm_nat_gateway.nat_gateway.id
 }
 
-
-
-
-
 resource "azurerm_role_definition" "this" {
-  name        = "${var.aad_app_name} role permissions "
+  name        = "${var.aad_app_name}-role-admin"
   scope       = data.azurerm_subscription.current.id
   description = "Allow Anthos service to manage role definitions."
 
@@ -74,20 +70,20 @@ resource "azurerm_role_definition" "this" {
     not_actions = [
     ]
   }
-
   assignable_scopes = [
     data.azurerm_subscription.current.id,
   ]
 }
 
 resource "azurerm_role_assignment" "this" {
-  scope                = azurerm_resource_group.vnet.id
-  role_definition_name = azurerm_role_definition.this.name
+  scope                = "${azurerm_resource_group.vnet.id}"
+  role_definition_name = "${azurerm_role_definition.this.name}"
   principal_id         = var.sp_obj_id
+
 }
 
 resource "azurerm_role_definition" "vnet" {
-  name        = "${var.aad_app_name} vnet permissions"
+  name        = "${var.aad_app_name}-vnet-admin"
   scope       = data.azurerm_subscription.current.id
   description = "Allow Anthos service to use and manage virtual network and role assignments"
 
@@ -102,14 +98,13 @@ resource "azurerm_role_definition" "vnet" {
     not_actions = [
     ]
   }
-
   assignable_scopes = [
     data.azurerm_subscription.current.id ,
   ]
 }
 
 resource "azurerm_role_assignment" "aad_app_vnet" {
-  scope                = azurerm_virtual_network.vnet.id
-  role_definition_name = azurerm_role_definition.vnet.name
+  scope                = "${azurerm_virtual_network.vnet.id}"
+  role_definition_name = "${azurerm_role_definition.vnet.name}"
   principal_id         = var.sp_obj_id
 }
