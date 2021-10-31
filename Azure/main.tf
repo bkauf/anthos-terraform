@@ -48,7 +48,7 @@ locals {
     CLUSTER_NAME    = var.name
     SUBNET_ID       = module.cluster-vnet.subnet_id
     TENANT_ID       = module.cluster-rg.tenant_id
-    APP_CLIENT        = var.application_name
+    AZURE_CLIENT    = var.application_name
   }
 }
 resource "local_file" "outputdata" {

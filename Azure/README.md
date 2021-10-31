@@ -11,11 +11,11 @@
   export CLUSTER_NAME = [fill in]
   export SUBNET_ID = [fill in]
   export TENANT_ID = [fill in]
-  export APP_CLIENT = [fill in]
+  export AZURE_CLIENT = [fill in]
   ```
 3. Create the Azure Client in GCP
 
-export AZURE_CLIENT = [name of Azure GCP Client]
+
 
 
 ```
