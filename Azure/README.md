@@ -8,7 +8,7 @@ terraform init
 teffaform apply
 ```
 
-2. Collect the output variables in the 'anthos-params/json' and put them into the following envoirnmental variables
+2. Collect the output variables in the 'anthos-params.json' and put them into the following envoirnmental variables
 ```
   export APPLICATION_ID = [fill in]
   export CLUSTER_RG_ID = [fill in]
