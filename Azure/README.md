@@ -3,6 +3,11 @@
 ## Prerequisites
 
 1. Run  this terraform
+```
+terraform init
+teffaform apply
+```
+
 2. Collect the output variables in the 'anthos-params/json' and put them into the following envoirnmental variables
 ```
   export APPLICATION_ID = [fill in]
