@@ -10,14 +10,16 @@ teffaform apply
 
 2. Collect the output variables in the 'anthos-params.json' and put them into the following envoirnmental variables
 ```
-  export APPLICATION_ID = [fill in]
-  export CLUSTER_RG_ID = [fill in]
-  export VNET_ID = [fill in]
-  export CLUSTER_NAME = [fill in]
-  export SUBNET_ID = [fill in]
-  export TENANT_ID = [fill in]
-  export AZURE_CLIENT = [fill in]
-  export GCP_PROJECT_ID = [fill in]
+  export AZURE_REGION=[fill in]
+  export APPLICATION_ID=[fill in]
+  export APP_NAME=[fill in]
+  export AZURE_CLIENT=[fill-in]
+  export CLUSTER_RG_ID=[fill in]
+  export VNET_ID=[fill in]
+  export VNET_RG_NAME=[fill in]
+  export SUBNET_ID=[fill in]
+  export TENANT_ID=[fill in]
+  export GCP_PROJECT_ID=[fill in]
   ```
 
  3. Enable the GCP APIs
