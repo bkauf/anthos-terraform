@@ -91,6 +91,7 @@ gcloud alpha container azure clusters create azure-cluster-2 \
   ```
 #### Node Pool
 
+```
 gcloud alpha container azure node-pools create np-1 \
   --cluster=azure-cluster-2 \
   --location ${GCP_REGION} \
@@ -101,12 +102,13 @@ gcloud alpha container azure node-pools create np-1 \
   --max-nodes=2 \
   --ssh-public-key="${SSH_PUBLIC_KEY}" \
   --subnet-id="${SUBNET_ID}"
-
+```
 
 
 ### Extra
 This is not needed in the GA product
 #### Setup a Bastion Host
+
 ```
 az vm create \
   --resource-group "${AZURE_VNET_RESOURCE_GROUP}" \
