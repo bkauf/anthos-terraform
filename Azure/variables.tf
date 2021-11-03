@@ -13,6 +13,12 @@ variable "gcp_project" {
   type        = string 
   default     = "anthos-tech-summit"
 }
+variable "gcp_region" {
+  description = "GCP region to deploy the multi-cloud API"
+  type        = string 
+  default     = "us-east4"
+}
+
 variable "application_name" {
   description = "Azure Application Name. EX: Anthos-GKE"
   type        = string

@@ -1,12 +1,9 @@
-
 locals {
   tags = {
     "creation_time"                = timestamp()
     "owner"                        = var.owner
- 
   }
 }
-
 
 module "aad-app" {
   source             = "./modules/aad-app"
@@ -43,11 +40,15 @@ locals {
   anthos-params = {
     AZURE_REGION    = var.region
     APPLICATION_ID  = module.aad-app.aad_app_id
+    APP_NAME        = var.application_name
+    AZURE_CLIENT    = var.application_name
+    GCP_REGION      = var.gcp_region
     CLUSTER_RG_ID   = module.cluster-rg.resource_group_id
+    VNET_RG_NAME    = var.vnet_resource_group
     VNET_ID         = module.cluster-vnet.vnet_id
     SUBNET_ID       = module.cluster-vnet.subnet_id
     TENANT_ID       = module.cluster-rg.tenant_id
-    AZURE_CLIENT    = var.application_name
+ 
   }
 }
 resource "local_file" "outputdata" {
