@@ -28,11 +28,14 @@ gcloud services enable gkeconnect.googleapis.com
 ```
 
 If this is the first cluster that you create in your Google Cloud project, you need to add an Identity and Access Management (IAM) policy binding to a Google Cloud service account.
+
+ WILL NOT NEED THIS IN GA
+
 ```
 gcloud projects add-iam-policy-binding "$GCP_PROJECT_ID" \
 --member="serviceAccount:$GCP_PROJECT_ID.svc.id.goog[gke-system/gke-multicloud-agent]" \
 --role="roles/gkehub.connect"
-``
+```
 
 
 4. Create the Azure Client in GCP
@@ -43,7 +46,7 @@ gcloud alpha container azure clients create ${AZURE_CLIENT} \
   --location=${GCP_REGION} \
   --tenant-id="${TENANT_ID}" \
   --application-id="${APPLICATION_ID}"
-  ```
+```
 
 5. Get the Azure cert from GCP and then put into into Azure AD
 
