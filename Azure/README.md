@@ -74,7 +74,7 @@ export SSH_PUBLIC_KEY=$(cat ${WORKDIR}/anthos-ssh-key.pub)
 
 6. Create your cluster
 
-# Control Plane
+#### Control Plane
 ```
 gcloud alpha container azure clusters create azure-cluster-2 \
   --location us-east4 \
@@ -89,7 +89,7 @@ gcloud alpha container azure clusters create azure-cluster-2 \
   --vnet-id "$VNET_ID" \
   --subnet-id "$SUBNET_ID"
   ```
-# Node Pool
+#### Node Pool
 
 gcloud alpha container azure node-pools create np-1 \
   --cluster=azure-cluster-2 \
@@ -105,9 +105,9 @@ gcloud alpha container azure node-pools create np-1 \
 
 
 ### Extra
-
-# Setup a Bastion Host
-
+This is not needed in the GA product
+#### Setup a Bastion Host
+```
 az vm create \
   --resource-group "${AZURE_VNET_RESOURCE_GROUP}" \
   --location "${AZURE_REGION}" \
@@ -121,7 +121,7 @@ az vm create \
   --nsg-rule SSH \
   --subnet ${SUBNET_ID} \
   --custom-data customdata.sh
-
+```
 
 # Get IP Address
 
