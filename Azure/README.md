@@ -46,7 +46,7 @@ AZURE_CLIENT_CERT=$(gcloud alpha container azure clients get-public-cert --locat
 az ad app credential reset --id "${APPLICATION_ID}" --cert "${AZURE_CLIENT_CERT}" --append
 ```
 
-6. Get the path of your public cert 
+6. Geneate a key to use with the cluster
 
 ```
 ssh-keygen -t rsa -b 4096 \
