@@ -127,7 +127,7 @@ az vm create \
   --custom-data customdata.sh
 ```
 
-# Get IP Address
+#### Get IP Address
 
 
 ```
