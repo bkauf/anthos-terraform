@@ -1,4 +1,4 @@
-# GKE on Azure Terraform
+# GKE on AWS Terraform
 
 ## Prerequisites
 
