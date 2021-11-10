@@ -4,13 +4,13 @@ data "azuread_client_config" "current" {}
 
 
 resource "azuread_application" "aad_app" {
-  display_name               = var.application_name
-  owners                       = [data.azuread_client_config.current.object_id]
+  display_name = var.application_name
+  owners       = [data.azuread_client_config.current.object_id]
   #available_to_other_tenants = false
   #oauth2_allow_implicit_flow = false
 }
 
-resource azuread_service_principal "aad_app" {
+resource "azuread_service_principal" "aad_app" {
   application_id               = azuread_application.aad_app.application_id
   app_role_assignment_required = false
   owners                       = [data.azuread_client_config.current.object_id]
