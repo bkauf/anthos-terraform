@@ -16,7 +16,6 @@ module "project-services" {
   project_id = var.gcp_project
 
   activate_apis = [
-    "anthos.googleapis.com",
     "gkemulticloud.googleapis.com",
   ]
 }
