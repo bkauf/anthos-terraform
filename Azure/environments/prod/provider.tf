@@ -6,7 +6,7 @@ terraform {
     azurerm = {
       source = "hashicorp/azurerm"
     }
-   
+
   }
   required_version = ">= 0.13"
 }
@@ -17,5 +17,5 @@ provider "azurerm" {
 }
 
 provider "azuread" {
-#  version = "=1.6.0"
+  #  version = "=1.6.0"
 }

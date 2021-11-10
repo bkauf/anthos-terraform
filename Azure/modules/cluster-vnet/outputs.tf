@@ -13,3 +13,7 @@ output "vnet_id" {
   value       = azurerm_virtual_network.vnet.id
 }
 
+output "location" {
+  description = "The location/region of vnet"
+  value       = azurerm_virtual_network.vnet.location
+}

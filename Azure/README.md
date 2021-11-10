@@ -2,140 +2,148 @@
 
 ## Prerequisites
 
-1. Run  this terraform
-```
-terraform init
-teffaform apply
-```
+1. Download the `az` CLI utility. Ensure it is in your `$PATH`.
 
-2. Collect the output variables in the 'anthos-params.json' and put them into the following envoirnmental variables
-```
-  export AZURE_REGION=[fill in]
-  export APPLICATION_ID=[fill in]
-  export APP_NAME=[fill in]
-  export AZURE_CLIENT=[fill-in]
-  export CLUSTER_RG_ID=[fill in]
-  export VNET_ID=[fill in]
-  export VNET_RG_NAME=[fill in]
-  export SUBNET_ID=[fill in]
-  export TENANT_ID=[fill in]
-  export GCP_PROJECT_ID=[fill in]
-  ```
+   ```bash
+   curl -L https://aka.ms/InstallAzureCli | bash
+   ```
 
- 3. Enable the GCP APIs
- ```
-gcloud services enable gkemulticloud.googleapis.com
-gcloud services enable anthos.googleapis.com
-gcloud services enable gkeconnect.googleapis.com
-```
+1. Log in to your Azure account and get account details.
 
-If this is the first cluster that you create in your Google Cloud project, you need to add an Identity and Access Management (IAM) policy binding to a Google Cloud service account.
+   ```bash
+   az login
+   ```
 
- WILL NOT NEED THIS IN GA
+1. Set the following variables for Azure Terraform authentication. The example uses [Azure CLI](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli) way of authenticating Terraform.
 
-```
-gcloud projects add-iam-policy-binding "$GCP_PROJECT_ID" \
---member="serviceAccount:$GCP_PROJECT_ID.svc.id.goog[gke-system/gke-multicloud-agent]" \
---role="roles/gkehub.connect"
-```
+   ```bash
+   export ARM_SUBSCRIPTION_ID=$(az account show --query "id" --output tsv)
+   export ARM_TENANT_ID=$(az account list --query "[?id=='${ARM_SUBSCRIPTION_ID}'].{tenantId:tenantId}" --output tsv)
 
+   echo -e "ARM_SUBSCRIPTION_ID is ${ARM_SUBSCRIPTION_ID}"
+   echo -e "ARM_TENANT_ID is ${ARM_TENANT_ID}"
+   ```
 
-4. Create the Azure Client in GCP
+   Ouput looks like the following
 
+   ```
+   ARM_SUBSCRIPTION_ID is abcdef123-abcd-1234-aaaa-12345abcdef
+   ARM_TENANT_ID is 1230982dfd-123a-1234-7a54-12345abcdef
+   ```
 
-```
-gcloud alpha container azure clients create ${AZURE_CLIENT} \
-  --location=${GCP_REGION} \
-  --tenant-id="${TENANT_ID}" \
-  --application-id="${APPLICATION_ID}"
-```
+## Prepare terraform
 
-5. Get the Azure cert from GCP and then put into into Azure AD
+1. Configure GCP Terraform authentication.
 
-```
-AZURE_CLIENT_CERT=$(gcloud alpha container azure clients get-public-cert --location=${GCP_REGION} ${APP_NAME})
-```
+   ```bash
+   echo PROJECT_ID=Your GCP Project ID
+   echo GCLOUD_USER=You Google user email
 
-```
-az ad app credential reset --id "${APPLICATION_ID}" --cert "${AZURE_CLIENT_CERT}" --append
-```
+   gcloud config set project "${PROJECT_ID}"
+   gcloud auth application-default login --no-launch-browser
+   ```
 
-6. Geneate a key to use with the cluster
+1. Enable services.
 
-```
-ssh-keygen -t rsa -b 4096 \
--C "${USER}" \
--N '' \
--f ${WORKDIR}/anthos-ssh-key
-```
+   ```bash
+   gcloud --project="${PROJECT_ID}" services enable \
+   container.googleapis.com \
+   compute.googleapis.com \
+   gkehub.googleapis.com \
+   gkeconnect.googleapis.com \
+   anthos.googleapis.com \
+   cloudresourcemanager.googleapis.com
+   ```
 
+   > You can also enable services in Terraform. Take care when destroying your terraform plan as it will also disable those services. For demo purposes, enable the main services here and only the services required for Anthos on Azure (i.e. the gkemulticloud.googleapis.com) through terraform.
 
-```
-export SSH_PUBLIC_KEY=$(cat ${WORKDIR}/anthos-ssh-key.pub)
-```
+1. Clone this repo.
 
-6. Create your cluster
+   ```bash
+   git clone https://github.com/bkauf/anthos-terraform.git
+   cd anthos-terraform/Azure/environments/prod
+   ```
 
-#### Control Plane
-```
-gcloud alpha container azure clusters create azure-cluster-2 \
-  --location us-east4 \
-  --client "$AZURE_CLIENT" \
-  --azure-region "$AZURE_REGION" \
-  --pod-address-cidr-blocks 10.100.0.0/22 \
-  --service-address-cidr-blocks 10.200.0.0/22 \
-  --vm-size Standard_B2s \
-  --cluster-version 1.19.10-gke.1000 \
-  --ssh-public-key "$SSH_PUBLIC_KEY" \
-  --resource-group-id "$CLUSTER_RG_ID" \
-  --vnet-id "$VNET_ID" \
-  --subnet-id "$SUBNET_ID"
-  ```
-#### Node Pool
+1. Define terraform variables.
 
-```
-gcloud alpha container azure node-pools create np-1 \
-  --cluster=azure-cluster-2 \
-  --location ${GCP_REGION} \
-  --node-version=1.19.10-gke.1000 \
-  --vm-size=Standard_D4s_v3 \
-  --max-pods-per-node=110 \
-  --min-nodes=1 \
-  --max-nodes=2 \
-  --ssh-public-key="${SSH_PUBLIC_KEY}" \
-  --subnet-id="${SUBNET_ID}"
-```
+   ```bash
+   AZURE_CLUSTER=${GCLOUD_USER%@*}-anthos-cluster-1
+   AZURE_NODEPOOL=${GCLOUD_USER%@*}-anthos-cluster-1-nodepool-1
+   AZURE_REGION="East US"
+   GCP_USER=${GCLOUD_USER}
+   GCP_PROJECT_ID=${PROJECT_ID}
+   GCP_REGION="us-east4"
+   GCP_AZURE_LOCATION="eastus"
+   APP_NAME=${GCLOUD_USER%@*}-app
+   CLUSTER_RESOURCE_GROUP_NAME=${GCLOUD_USER%@*}-cluster-rg
+   VNET_RESOURCE_GROUP_NAME=${GCLOUD_USER%@*}-vnet-rg
+   VNET_NAME=${GCLOUD_USER%@*}-vnet
+   AZURE_CLIENT=${GCLOUD_USER%@*}-az-client
+   AZURE_ROLE_ADMIN_NAME=${GCLOUD_USER%@*}-role-admin
+   AZURE_ROLE_VNET_ADMIN_NAME=${GCLOUD_USER%@*}-role-vnet-admin
 
+   sed -e s/AZURE_REGION/$AZURE_REGION/ -e s/GCP_USER/$GCP_USER/ \
+       -e s/GCP_PROJECT_ID/$GCP_PROJECT_ID/ -e s/GCP_REGION/$GCP_REGION/ \
+       -e s/APP_NAME/$APP_NAME/ -e s/CLUSTER_RESOURCE_GROUP_NAME/$CLUSTER_RESOURCE_GROUP_NAME/ \
+       -e s/VNET_RESOURCE_GROUP_NAME/$VNET_RESOURCE_GROUP_NAME/ -e s/VNET_NAME/$VNET_NAME/ \
+       -e s/AZURE_ROLE_ADMIN_NAME/$AZURE_ROLE_ADMIN_NAME/ -e s/AZURE_ROLE_VNET_ADMIN_NAME/$AZURE_ROLE_VNET_ADMIN_NAME/ \
+       -e s/AZURE_CLIENT/$AZURE_CLIENT/ -e s/AZURE_CLUSTER/$AZURE_CLUSTER/ \
+       -e s/GCP_AZURE_LOCATION/$GCP_AZURE_LOCATION/ -e s/AZURE_NODEPOOL/$AZURE_NODEPOOL/ \
+       variables.tf.tmpl > variables.tf
+   ```
+
+## Deploy Anthos on Azure cluster
+
+1. Initialize and create terraform plan.
+
+   ```bash
+   terraform init
+   terraform plan -out terraform.tfplan
+   ```
+
+1. Apply terraform.
+
+   ```bash
+   terraform apply -input=false terraform.tfplan
+   ```
+
+## Delete Anthos on Azure cluster
+
+1. Run the following command to delete Anthos on Azure cluster.
+
+   ```bash
+   terraform destroy --auto-approve
+   ```
 
 ### Extra
+
 This is not needed in the GA product
+
 #### Setup a Bastion Host
 
-```
-az vm create \
-  --resource-group "${AZURE_VNET_RESOURCE_GROUP}" \
-  --location "${AZURE_REGION}" \
-  --vnet-name "${AZURE_VNET}" \
-  --ssh-key-values ${WORKDIR}/anthos-ssh-key.pub \
-  --name anthos-bastion-host \
-  --image UbuntuLTS \
-  --size Standard_B1ls \
-  --public-ip-sku Standard \
-  --nsg ${anthos-bastion-host} \
-  --nsg-rule SSH \
-  --subnet ${SUBNET_ID} \
-  --custom-data customdata.sh
+```bash
+   az vm create \
+     --resource-group "${AZURE_VNET_RESOURCE_GROUP}" \
+     --location "${AZURE_REGION}" \
+     --vnet-name "${AZURE_VNET}" \
+     --ssh-key-values ${WORKDIR}/anthos-ssh-key.pub \
+     --name anthos-bastion-host \
+     --image UbuntuLTS \
+     --size Standard_B1ls \
+     --public-ip-sku Standard \
+     --nsg ${anthos-bastion-host} \
+     --nsg-rule SSH \
+     --subnet ${SUBNET_ID} \
+     --custom-data customdata.sh
 ```
 
 #### Get IP Address
 
-
-```
+```bash
 export AZURE_BASTION_IP_ADDRESS=$(az network public-ip show \
   --resource-group ${AZURE_VNET_RESOURCE_GROUP} \
   --name ${AZURE_BASTION_VM}PublicIP --query "ipAddress" --output tsv)
 echo -e "export AZURE_BASTION_IP_ADDRESS=${AZURE_BASTION_IP_ADDRESS}" | tee -a ${WORKDIR}/vars.sh && source ${WORKDIR}/vars.sh
 ```
-
 
 #
