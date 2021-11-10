@@ -121,20 +121,6 @@ module "create_anthos_on_azure_node_pool" {
   module_depends_on      = [module.create_anthos_on_azure_cluster.wait]
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #module "bastion" {
 #  source = "../modules/bastion"
 
