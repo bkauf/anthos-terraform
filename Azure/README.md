@@ -19,7 +19,7 @@
    ```bash
    export ARM_SUBSCRIPTION_ID=$(az account show --query "id" --output tsv)
    export ARM_TENANT_ID=$(az account list --query "[?id=='${ARM_SUBSCRIPTION_ID}'].{tenantId:tenantId}" --output tsv)
-   
+
    echo -e "ARM_SUBSCRIPTION_ID is ${ARM_SUBSCRIPTION_ID}"
    echo -e "ARM_TENANT_ID is ${ARM_TENANT_ID}"
    ```
@@ -38,10 +38,24 @@
    ```bash
    echo PROJECT_ID=Your GCP Project ID
    echo GCLOUD_USER=You Google user email
-   
+
    gcloud config set project "${PROJECT_ID}"
    gcloud auth application-default login --no-launch-browser
    ```
+
+1. Enable services.
+
+   ```bash
+   gcloud --project="${PROJECT_ID}" services enable \
+   container.googleapis.com \
+   compute.googleapis.com \
+   gkehub.googleapis.com \
+   gkeconnect.googleapis.com \
+   anthos.googleapis.com \
+   cloudresourcemanager.googleapis.com
+   ```
+
+   > You can also enable services in Terraform. Take care when destroying your terraform plan as it will also disable those services. For demo purposes, enable the main services here and only the services required for Anthos on Azure (i.e. the gkemulticloud.googleapis.com) through terraform.
 
 1. Clone this repo.
 
@@ -67,7 +81,7 @@
    AZURE_CLIENT=${GCLOUD_USER%@*}-az-client
    AZURE_ROLE_ADMIN_NAME=${GCLOUD_USER%@*}-role-admin
    AZURE_ROLE_VNET_ADMIN_NAME=${GCLOUD_USER%@*}-role-vnet-admin
-   
+
    sed -e s/AZURE_REGION/$AZURE_REGION/ -e s/GCP_USER/$GCP_USER/ \
        -e s/GCP_PROJECT_ID/$GCP_PROJECT_ID/ -e s/GCP_REGION/$GCP_REGION/ \
        -e s/APP_NAME/$APP_NAME/ -e s/CLUSTER_RESOURCE_GROUP_NAME/$CLUSTER_RESOURCE_GROUP_NAME/ \
@@ -121,15 +135,15 @@ This is not needed in the GA product
      --nsg-rule SSH \
      --subnet ${SUBNET_ID} \
      --custom-data customdata.sh
-   ```
+```
 
 #### Get IP Address
 
-   ```bash
-   export AZURE_BASTION_IP_ADDRESS=$(az network public-ip show \
-     --resource-group ${AZURE_VNET_RESOURCE_GROUP} \
-     --name ${AZURE_BASTION_VM}PublicIP --query "ipAddress" --output tsv)
-   echo -e "export AZURE_BASTION_IP_ADDRESS=${AZURE_BASTION_IP_ADDRESS}" | tee -a ${WORKDIR}/vars.sh && source ${WORKDIR}/vars.sh
-   ```
+```bash
+export AZURE_BASTION_IP_ADDRESS=$(az network public-ip show \
+  --resource-group ${AZURE_VNET_RESOURCE_GROUP} \
+  --name ${AZURE_BASTION_VM}PublicIP --query "ipAddress" --output tsv)
+echo -e "export AZURE_BASTION_IP_ADDRESS=${AZURE_BASTION_IP_ADDRESS}" | tee -a ${WORKDIR}/vars.sh && source ${WORKDIR}/vars.sh
+```
 
 #
