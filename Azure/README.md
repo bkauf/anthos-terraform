@@ -115,7 +115,7 @@ quick start to working with Anthos on Azure. For more information on Anthos Mult
  1. Login to the Cluster
 
 ```bash
-   gcloud beta container hub memberships get-credentials ${GCLOUD_USER%@*}-anthos-cluster-1
+   gcloud beta container hub memberships get-credentials $AZURE_CLUSTER
    kubectl get nodes
    ```
 
