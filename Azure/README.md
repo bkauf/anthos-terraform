@@ -2,6 +2,7 @@
 
 ## Notes:
 ![Anthos Multi-Cloud](Anthos-Multi-Azure.png)
+
 This terraform script will install all relevant IaaS in Azure(VNet, App Registration, Resource Groups, KMS) and then deploy Anthos GKE with 3 control plane nodes(1 in each AZ) and a single node pool to the Azure East US region. After the cluster has been installed it will show up in your GKE page of the GCP console in your relevant GCP project. For best results please run this script in [GCP Cloud Shell](https://cloud.google.com/shell/docs/using-cloud-shelll). This script is meant to be a
 quick start to working with Anthos on Azure. 
 
