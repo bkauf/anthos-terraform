@@ -2,7 +2,7 @@
 
 ## Notes:
 
-This terraform script will install all relevant IaaS in Azure and then deploy Anthos GKE and a single node pool to the East US region. This script is meant to be a
+This terraform script will install all relevant IaaS in Azure and then deploy Anthos GKE and a single node pool to the East US region. After the cluster has been installed it will show up in your GKE page of the GCP console in your relevant GCP project. For best results please run this script in [GCP Cloud Shel](https://cloud.google.com/shell/docs/using-cloud-shelll) This script is meant to be a
 quick start to working with Anthos on Azure. 
 
 ## Prerequisites
