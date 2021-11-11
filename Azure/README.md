@@ -1,5 +1,10 @@
 # GKE on Azure Terraform
 
+## Notes:
+
+This terraform script will install all relevant IaaS in Azure and then deploy Anthos GKE and a single node pool to the East US region. This script is meant to be a
+quick start to working with Anthos on Azure. 
+
 ## Prerequisites
 
 1. Download the `az` CLI utility. Ensure it is in your `$PATH`.
