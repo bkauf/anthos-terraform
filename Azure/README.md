@@ -57,7 +57,7 @@
 
    > You can also enable services in Terraform. Take care when destroying your terraform plan as it will also disable those services. For demo purposes, enable the main services here and only the services required for Anthos on Azure (i.e. the gkemulticloud.googleapis.com) through terraform.
 
-1. Clone this repo.
+1. Clone this repo and go into the environments/prod folder.
 
    ```bash
    git clone https://github.com/bkauf/anthos-terraform.git
@@ -115,35 +115,4 @@
    terraform destroy --auto-approve
    ```
 
-### Extra
 
-This is not needed in the GA product
-
-#### Setup a Bastion Host
-
-```bash
-   az vm create \
-     --resource-group "${AZURE_VNET_RESOURCE_GROUP}" \
-     --location "${AZURE_REGION}" \
-     --vnet-name "${AZURE_VNET}" \
-     --ssh-key-values ${WORKDIR}/anthos-ssh-key.pub \
-     --name anthos-bastion-host \
-     --image UbuntuLTS \
-     --size Standard_B1ls \
-     --public-ip-sku Standard \
-     --nsg ${anthos-bastion-host} \
-     --nsg-rule SSH \
-     --subnet ${SUBNET_ID} \
-     --custom-data customdata.sh
-```
-
-#### Get IP Address
-
-```bash
-export AZURE_BASTION_IP_ADDRESS=$(az network public-ip show \
-  --resource-group ${AZURE_VNET_RESOURCE_GROUP} \
-  --name ${AZURE_BASTION_VM}PublicIP --query "ipAddress" --output tsv)
-echo -e "export AZURE_BASTION_IP_ADDRESS=${AZURE_BASTION_IP_ADDRESS}" | tee -a ${WORKDIR}/vars.sh && source ${WORKDIR}/vars.sh
-```
-
-#
