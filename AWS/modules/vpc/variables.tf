@@ -18,8 +18,14 @@ variable "public_subnet_cidr_blocks" {
   default     = []
 }
 
-variable "private_subnet_cidr_blocks" {
-  description = "CIDR blocks to use for private subnets"
+variable "cp_private_subnet_cidr_blocks" {
+  description = "CIDR blocks to use for control plane private subnets"
+  type        = list(string)
+  default     = []
+}
+
+variable "np_private_subnet_cidr_blocks" {
+  description = "CIDR blocks to use for node pool private subnets"
   type        = list(string)
   default     = []
 }

@@ -8,8 +8,6 @@ variable "anthos_prefix" {
   type        = string
 }
 
-
-
 variable "db_kms_arn" {
   description = "DB KMS ARN"
   type        = string
