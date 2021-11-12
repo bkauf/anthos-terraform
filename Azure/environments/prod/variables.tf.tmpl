@@ -1,80 +1,80 @@
 variable "region" {
   description = "Azure region to deploy to"
   type        = string
-  default     = "AZURE_REGION"
+  default     = "east us"
 }
 
 variable "owner" {
   description = "Azure resource owner"
   type        = string
-  default     = "GCP_USER"
+  default     = "bkauf@google.com"
 }
 variable "gcp_project" {
   description = "GCP project to register the Anthos Cluster To"
   type        = string
-  default     = "GCP_PROJECT_ID"
+  default     = "anthos-tech-summit"
 }
 variable "gcp_region" {
   description = "GCP region to deploy the multi-cloud API"
   type        = string
-  default     = "GCP_REGION"
+  default     = "us-east4"
 }
 
 variable "gcp_azure_location" {
   description = "Azure region depiction in GCP. For example East US is eastus2"
   type        = string
-  default     = "GCP_AZURE_LOCATION"
+  default     = "eastus"
 }
 
 variable "application_name" {
   description = "Azure Application Name. EX: Anthos-GKE"
   type        = string
-  default     = "APP_NAME"
+  default     = "bkauf-anthos-gcp"
 }
 
 variable "cluster_rg" {
   description = "Name for the Cluster Resource Group"
   type        = string
-  default     = "CLUSTER_RESOURCE_GROUP_NAME"
+  default     = "bkaf-CLUSTER_RESOURCE_GROUP_NAME"
 }
 variable "vnet_name" {
   description = "Name of VNet to create"
   type        = string
-  default     = "VNET_NAME"
+  default     = "bkauf-VNET_NAME"
 }
 variable "vnet_resource_group" {
   description = "Azure VNet resouce group"
   type        = string
-  default     = "VNET_RESOURCE_GROUP_NAME"
+  default     = "bkauf-VNET_RESOURCE_GROUP_NAME"
 }
 
 variable "role_admin" {
   description = "Name for the role admin"
   type        = string
-  default     = "AZURE_ROLE_ADMIN_NAME"
+  default     = "bkauf-AZURE_ROLE_ADMIN_NAME"
 }
 variable "role_vnet_admin" {
   description = "Name for the VNet role admin"
   type        = string
-  default     = "AZURE_ROLE_VNET_ADMIN_NAME"
+  default     = "bkauf-AZURE-ROLE-VNET-ADMIN-NAME"
 }
 
 variable "azure_client" {
   description = "Name for the GCP Azure client"
   type        = string
-  default     = "AZURE_CLIENT"
+  default     = "bkauf-AZURE-CLIENT"
 }
 
 variable "azure_cluster" {
   description = "Name for the Anthos on Azure cluster"
   type        = string
-  default     = "AZURE_CLUSTER"
+  default     = "bauf-terraform-cluster"
 }
 
 variable "azure_nodepool" {
   description = "Name for the Anthos on Azure cluster nodepool"
   type        = string
-  default     = "AZURE_NODEPOOL"
+  default     = "bkauf-azure-np"
 }
 
 #variable "ssh_pub_key" {
