@@ -5,7 +5,7 @@
 
 This terraform script will install all relevant IaaS in Azure(VNet, App Registration, Resource Groups, KMS) and then deploy Anthos GKE with 3 control plane nodes(1 in each AZ) and a single node pool with 1 node in an autoscaling group to max 2 nodes to the Azure East US region. After the cluster has been installed it will show up in your GKE page of the GCP console in your relevant GCP project. For best results please run this script in [GCP Cloud Shell](https://cloud.google.com/shell/docs/using-cloud-shelll). The Multi-Cloud API is regonal - For a list of Azure regions and assocaited K8s version supported per GCP region please use this command:
 
-```
+```bash
 gcloud alpha container azure get-server-config --location [gcp-region]
 ```
 
@@ -119,7 +119,7 @@ gcloud alpha container azure get-server-config --location [gcp-region]
    ```
  1. Login to the Cluster
 
-```bash
+   ```bash
    gcloud beta container hub memberships get-credentials $AZURE_CLUSTER
    kubectl get nodes
    ```
