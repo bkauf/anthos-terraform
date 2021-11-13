@@ -83,6 +83,16 @@ variable "public_subnet_cidr_block" {
   default     = "10.0.101.0/24"
 }
 
+variable "admin_user" {
+  description = "Admin user"
+  type        = string
+}
+
+variable "cluster_version" {
+  description = "Cluster version"
+  type        = string
+  default     = "1.21.5-gke.2800"
+}
 
 
 
