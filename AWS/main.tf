@@ -1,8 +1,6 @@
 locals {
   endpoint        = "https://us-west1-preprod-gkemulticloud.sandbox.googleapis.com/"
   cluster_version = "1.21.5-gke.2800"
-  aws_cluster     = "tcl"
-  aws_nodepool    = "tnp"
 }
 
 module "kms" {
@@ -31,8 +29,8 @@ module "vpc" {
 
 module "container_aws" {
   source                          = "./modules/aws"
+  anthos_prefix                   = var.anthos_prefix
   location                        = var.gcp_location
-  project_id                      = var.gcp_project
   aws_region                      = var.aws_region
   cluster_version                 = var.cluster_version
   database_encryption_kms_key_arn = module.kms.database_encryption_kms_key_arn
@@ -43,6 +41,7 @@ module "container_aws" {
   subnet_ids                      = [module.vpc.aws_cp_subnet_id_1, module.vpc.aws_cp_subnet_id_2, module.vpc.aws_cp_subnet_id_3]
   node_pool_subnet_id             = module.vpc.aws_np_subnet_id_1
   fleet_project                   = "projects/${var.gcp_project_number}"
+  depends_on                      = [module.kms, module.iam, module.vpc]
 }
 
 # module "create_anthos_on_aws_cluster" {

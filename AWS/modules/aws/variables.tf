@@ -1,5 +1,3 @@
-variable "project_id" {
-}
 variable "location" {
   default = "us-west1"
 }
@@ -33,4 +31,6 @@ variable "role_arn" {
 variable "node_pool_subnet_id" {
 }
 variable "fleet_project" {
+}
+variable "anthos_prefix" {
 }
