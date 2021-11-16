@@ -27,8 +27,8 @@ module "vpc" {
   np_private_subnet_cidr_blocks = var.np_private_subnet_cidr_blocks
 }
 
-module "container_aws" {
-  source                          = "./modules/aws"
+module "anthos_cluster" {
+  source                          = "./modules/anthos_cluster"
   anthos_prefix                   = var.anthos_prefix
   location                        = var.gcp_location
   aws_region                      = var.aws_region
@@ -44,23 +44,9 @@ module "container_aws" {
   depends_on                      = [module.kms, module.iam, module.vpc]
 }
 
-# module "create_anthos_on_aws_cluster" {
-#   source                 = "terraform-google-modules/gcloud/google"
-#   platform               = "linux"
-#   create_cmd_entrypoint  = "${path.module}/scripts/create_aws_cluster.sh"
-#   create_cmd_body        = "\"${local.endpoint}\" \"${local.aws_cluster}\" \"${var.gcp_location}\" \"${var.aws_region}\" \"${local.cluster_version}\" \"${module.kms.database_encryption_kms_key_arn}\" \"${module.iam.cp_instance_profile_id}\" \"${module.iam.api_role_arn}\" \"${module.vpc.aws_cp_subnet_id_1},${module.vpc.aws_cp_subnet_id_2},${module.vpc.aws_cp_subnet_id_3}\" \"${module.vpc.aws_vpc_id}\" \"${var.gcp_project_number}\""
-#   destroy_cmd_entrypoint = "${path.module}/scripts/delete_aws_cluster.sh"
-#   destroy_cmd_body       = "\"${local.endpoint}\" \"${local.aws_cluster}\" \"${var.gcp_location}\""
-#   module_depends_on      = [module.vpc, module.kms, module.iam]
-# }
-
-# module "create_anthos_on_aws_node_pool" {
-#   source                 = "terraform-google-modules/gcloud/google"
-#   platform               = "linux"
-#   create_cmd_entrypoint  = "${path.module}/scripts/create_aws_nodepool.sh"
-#   create_cmd_body        = "\"${local.endpoint}\" \"${local.aws_nodepool}\" \"${local.aws_cluster}\" \"${var.gcp_location}\" \"${local.cluster_version}\" \"${module.kms.database_encryption_kms_key_arn}\" \"${module.iam.np_instance_profile_id}\" \"${module.vpc.aws_np_subnet_id_1}\" "
-#   destroy_cmd_entrypoint = "${path.module}/scripts/delete_aws_nodepool.sh"
-#   destroy_cmd_body       = "\"${local.endpoint}\" \"${local.aws_nodepool}\" \"${local.aws_cluster}\" \"${var.gcp_location}\""
-#   module_depends_on      = [module.create_anthos_on_aws_cluster.wait]
-# }
+module "hub_feature" {
+  source     = "./modules/hub_feature"
+  membership = "projects/${var.gcp_project_number}/locations/global/memberships/${module.anthos_cluster.cluster_name}"
+  depends_on = [module.anthos_cluster]
+}
 

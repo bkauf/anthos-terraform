@@ -17,7 +17,8 @@ resource "google_container_aws_cluster" "this" {
     }
     version = var.cluster_version
     aws_services_authentication {
-      role_arn = var.role_arn
+      role_arn          = var.role_arn
+      role_session_name = "multicloud-service-agent"
     }
     config_encryption {
       kms_key_arn = var.database_encryption_kms_key_arn
