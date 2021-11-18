@@ -19,3 +19,10 @@ provider "azurerm" {
 provider "azuread" {
   #  version = "=1.6.0"
 }
+provider "google" {
+  project                         = var.gcp_project
+  container_azure_custom_endpoint = "https://us-west1-preprod-gkemulticloud.sandbox.googleapis.com/v1/"
+}
+provider "google-beta" {
+  project = var.gcp_project
+}
