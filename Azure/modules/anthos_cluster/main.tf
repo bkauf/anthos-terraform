@@ -26,12 +26,13 @@ resource "azuread_application_certificate" "aad_app_azure_client_cert" {
 }
 
 resource "time_sleep" "wait_for_aad_app_azure_client_cert" {
-  create_duration = "10s"
+  create_duration = "20s"
   depends_on      = [azuread_application_certificate.aad_app_azure_client_cert]
 }
 
 resource "google_container_azure_cluster" "this" {
   client            = "projects/${var.project_number}/locations/${var.location}/azureClients/${module.azure_client.client_name}"
+  # client            = module.azure_client.client
   azure_region      = var.azure_region
   description       = "Test Azure cluster created with Terraform"
   location          = var.location
@@ -67,13 +68,13 @@ resource "google_container_azure_cluster" "this" {
   fleet {
     project = var.fleet_project
   }
-  depends_on = [azuread_application_certificate.aad_app_azure_client_cert]
+  depends_on = [time_sleep.wait_for_aad_app_azure_client_cert]
 }
 resource "google_container_azure_node_pool" "azure_node_pool" {
   cluster                 = google_container_azure_cluster.this.id
   version                 = var.cluster_version
   location                = var.location
-  azure_availability_zone = "1"
+  # azure_availability_zone = "1"
   name                    = "${var.anthos_prefix}-nodepool"
   subnet_id               = var.subnet_id
   autoscaling {
