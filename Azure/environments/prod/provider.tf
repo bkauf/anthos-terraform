@@ -21,7 +21,7 @@ provider "azuread" {
 }
 provider "google" {
   project                         = var.gcp_project
-  container_azure_custom_endpoint = "https://us-west1-preprod-gkemulticloud.sandbox.googleapis.com/v1/"
+  container_azure_custom_endpoint = "https://us-west1-gkemulticloud.googleapis.com/v1/"
 }
 provider "google-beta" {
   project = var.gcp_project
