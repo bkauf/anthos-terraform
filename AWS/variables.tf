@@ -7,13 +7,13 @@ variable "anthos_prefix" {
 variable "aws_region" {
   description = "AWS region to deploy to"
   type        = string
-  default     = "us-west-2"
+  default     = "us-east-2"
 }
 
 variable "gcp_location" {
   description = "GCP region to deploy to"
   type        = string
-  default     = "us-west1"
+  default     = "us-east4"
 }
 
 variable "iam_role_path" {
@@ -42,9 +42,9 @@ variable "subnet_availability_zones" {
   description = "Availability zones to create subnets in, 3 for contorl plane, 1 for node pools"
   type        = list(string)
   default = [
-    "us-west-2a",
-    "us-west-2b",
-    "us-west-2c",
+    "us-east-2a",
+    "us-east-2b",
+    "us-east-2c",
   ]
 }
 
@@ -94,6 +94,9 @@ variable "cluster_version" {
   default     = "1.21.5-gke.2800"
 }
 
+variable "endpoint" {
+  
+}
 
 
 

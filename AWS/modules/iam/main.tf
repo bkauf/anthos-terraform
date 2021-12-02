@@ -22,8 +22,7 @@ data "aws_iam_policy_document" "api_assume_role_policy_document" {
       test     = "StringEquals"
       variable = "accounts.google.com:sub"
       values = [
-        "service-${var.gcp_project_number}@gcp-sa-gkemulticloud.iam.gserviceaccount.com",
-        "service-${var.gcp_project_number}@gcp-sa-preprod-gkemulticloud.iam.gserviceaccount.com",
+        "service-${var.gcp_project_number}@gcp-sa-gkemulticloud.iam.gserviceaccount.com"
       ]
     }
   }

@@ -1,10 +1,10 @@
 provider "aws" {
   profile = "default"
-  region  = "us-west-2"
+  region  = var.aws_region
 }
 provider "google" {
   project                       = var.gcp_project
-  container_aws_custom_endpoint = "https://us-west1-gkemulticloud.googleapis.com/v1/"
+  container_aws_custom_endpoint = var.endpoint
 }
 provider "google-beta" {
   project = var.gcp_project

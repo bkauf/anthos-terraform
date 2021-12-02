@@ -45,7 +45,8 @@ module "anthos_cluster" {
 }
 
 module "hub_feature" {
-  source     = "./modules/hub_feature"
+  source = "./modules/hub_feature"
+  # membership = module.anthos_cluster.memberships
   membership = "projects/${var.gcp_project_number}/locations/global/memberships/${module.anthos_cluster.cluster_name}"
   depends_on = [module.anthos_cluster]
 }

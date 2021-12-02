@@ -1,11 +1,8 @@
 variable "location" {
-  default = "us-west1"
 }
 variable "aws_region" {
-  default = "us-west-2"
 }
 variable "cluster_version" {
-  default = "1.19.10-gke.1000"
 }
 variable "database_encryption_kms_key_arn" {
 }
