@@ -14,8 +14,6 @@ gcloud alpha container azure get-server-config --location [gcp-region]
 ## Prerequisites
 
 
-## Prepare terraform
-
 1. Configure GCP Terraform authentication.
 
    ```bash
@@ -26,7 +24,7 @@ gcloud alpha container azure get-server-config --location [gcp-region]
    gcloud auth application-default login --no-launch-browser
    ```
 
-2. Enable services.
+1. Enable services.
 
    ```bash
    gcloud --project="${PROJECT_ID}" services enable \
@@ -47,7 +45,7 @@ gcloud alpha container azure get-server-config --location [gcp-region]
 
    > You can also enable services in Terraform. Take care when destroying your terraform plan as it will also disable those services. For demo purposes, enable the main services here.
 
-3. Clone this repo and go into the environments/prod folder.
+1. Clone this repo and go into the environments/prod folder.
 
    ```bash
    git clone https://github.com/bkauf/anthos-terraform.git
