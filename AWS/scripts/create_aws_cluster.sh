@@ -15,4 +15,5 @@ set -e
   --service-address-cidr-blocks="10.1.0.0/16" \
   --subnet-ids=${8} \
   --vpc-id=${9} \
+  --tags="Name=${1}-cp" \
   --fleet-project=${10}

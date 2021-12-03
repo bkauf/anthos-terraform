@@ -1,7 +1,8 @@
 
 variable "anthos_prefix" {
-  description = "Prefix to apply to Anthos AWS Policy & Network names"
+  description = "Prefix to apply to Anthos AWS Cluster, Node, and AWS Policy & Network names"
   type        = string
+
 }
 
 variable "aws_region" {
@@ -25,6 +26,7 @@ variable "iam_role_path" {
 variable "gcp_project" {
   description = "Name of the gcp project where the cluster will be registered."
   type        = string
+ 
 }
 
 variable "gcp_project_number" {
