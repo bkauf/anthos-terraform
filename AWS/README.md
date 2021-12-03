@@ -1,7 +1,5 @@
 # GKE on AWS Terraform
 
-# GKE on Azure Terraform
-
 ## Notes:
 ![Anthos Multi-Cloud](Anthos-Multi-AWS.png)
 
