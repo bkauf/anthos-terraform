@@ -27,7 +27,7 @@ gcloud component update
    gcloud auth application-default login --no-launch-browser
    ```
 
-1. Enable services.
+1. Enable services in your GCP project.
 
    ```bash
    gcloud --project="${PROJECT_ID}" services enable \
