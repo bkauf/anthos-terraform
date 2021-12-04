@@ -11,5 +11,5 @@ gcloud container aws node-pools create $1 \
   --iam-instance-profile=$6 \
   --subnet-id=$7 \
   --tags="Name=${1}-np" \
-  --min-nodes=3 --max-nodes=5 --max-pods-per-node=110
+  --min-nodes=1 --max-nodes=3 --max-pods-per-node=110
 

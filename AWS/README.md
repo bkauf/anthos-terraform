@@ -13,7 +13,7 @@ gcloud container azure get-server-config --location [gcp-region]
 
 ## Prerequisites
 
-1. Ensure you have the t gCloud SDK  365.0.1 or greater installed
+1. Ensure you have gCloud SDK 365.0.1 or greater [installed](https://cloud.google.com/sdk/docs/install)
 ```
 gcloud component update
 ```
