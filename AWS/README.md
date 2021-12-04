@@ -77,7 +77,7 @@ gcloud component update
    ```bash
    terraform apply 
    ```
-1.  Authorize Cloud Logging / Cloud Monitoring
+1. Authorize Cloud Logging / Cloud Monitoring
 
    Enable logging if this is your first cluster in this project. You can only do this after the first cluster has been created. 
    ( [read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth) )
