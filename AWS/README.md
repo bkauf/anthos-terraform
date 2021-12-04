@@ -42,7 +42,7 @@ gcloud component update
 
    > You can also enable services in Terraform. Take care when destroying your terraform plan as it will also disable those services. For demo purposes, enable the main services here.
 
-1. Clone this repo and go into the environments/prod folder.
+1. Clone this repo and go into the aws folder.
 
    ```bash
    git clone https://github.com/bkauf/anthos-terraform.git
