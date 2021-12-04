@@ -78,6 +78,7 @@ aws configure
 
  Enable logging if this is your first cluster in this project. You can only do this after the first cluster has been created. 
  ( [read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth) )
+ 
   ``` bash
   gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member="serviceAccount:${PROJECT_ID}.svc.id.goog[gke-system/gke-telemetry-agent]" \
