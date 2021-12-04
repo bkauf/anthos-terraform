@@ -22,7 +22,6 @@ gcloud component update
 
    ```bash
    echo PROJECT_ID=Your GCP Project ID
-   echo GCLOUD_USER=You Google user email
 
    gcloud config set project "${PROJECT_ID}"
    gcloud auth application-default login --no-launch-browser
