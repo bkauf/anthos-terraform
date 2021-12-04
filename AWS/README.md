@@ -51,17 +51,17 @@ gcloud component update
 
 1. Install the AWS CLI
 
-Linux below, others can be found [here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-```bash
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
-```
+   Linux below, others can be found [here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+   ```bash
+   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   unzip awscliv2.zip
+   sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+   ```
 
-Setup the AWS CLI with your [access key and secret](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-prereqs.html#getting-started-prereqs-keys)
-```bash
-aws configure
-```
+   Setup the AWS CLI with your [access key and secret](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-prereqs.html#getting-started-prereqs-keys)
+   ```bash
+   aws configure
+   ```
 
 ## Deploy Anthos Clusters(GKE) on AWS
 
@@ -79,14 +79,14 @@ aws configure
    ```
 1.  Authorize Cloud Logging / Cloud Monitoring
 
- Enable logging if this is your first cluster in this project. You can only do this after the first cluster has been created. 
- ( [read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth) )
+   Enable logging if this is your first cluster in this project. You can only do this after the first cluster has been created. 
+   ( [read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth) )
 
-  ``` bash
-  gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_ID}.svc.id.goog[gke-system/gke-telemetry-agent]" \
-  --role=roles/gkemulticloud.telemetryWriter
-  ```
+   ``` bash
+   gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+   --member="serviceAccount:${PROJECT_ID}.svc.id.goog[gke-system/gke-telemetry-agent]" \
+   --role=roles/gkemulticloud.telemetryWriter
+   ```
 
 
  1. Login to the Cluster
