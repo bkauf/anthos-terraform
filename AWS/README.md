@@ -91,7 +91,7 @@ gcloud component update
 
  1. Login to the Cluster
 
-   ```bash
+   ``` bash
    gcloud container hub memberships get-credentials [cluster name]
    kubectl get nodes
    ```
