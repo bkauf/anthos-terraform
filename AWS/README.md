@@ -77,6 +77,8 @@ gcloud component update
    ```bash
    terraform apply 
    ```
+   You will be then asked for your cluster name, GCP project name, and project ID. 
+   
 1. Authorize Cloud Logging / Cloud Monitoring
 
    Enable logging if this is your first cluster in this project. You can only do this after the first cluster has been created. 
