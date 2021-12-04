@@ -28,7 +28,7 @@ gcloud alpha container azure get-server-config --location [gcp-region]
 
    ```bash
    gcloud --project="${PROJECT_ID}" services enable \
-   gkemulticloud.googleapis.com\
+   gkemulticloud.googleapis.com \
    gkeconnect.googleapis.com \
    connectgateway.googleapis.com \
    cloudresourcemanager.googleapis.com \
@@ -36,12 +36,6 @@ gcloud alpha container azure get-server-config --location [gcp-region]
    logging.googleapis.com \
    monitoring.googleapis.com
    ```
-  Authorize Cloud Loggign / Cloud Monitoring( [read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth) )
-  ``` bash
-  gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member="serviceAccount:${PROJECT_ID}.svc.id.goog[gke-system/gke-telemetry-agent]" \
-  --role=roles/gkemulticloud.telemetryWriter
-  ```
 
    > You can also enable services in Terraform. Take care when destroying your terraform plan as it will also disable those services. For demo purposes, enable the main services here.
 
@@ -51,6 +45,20 @@ gcloud alpha container azure get-server-config --location [gcp-region]
    git clone https://github.com/bkauf/anthos-terraform.git
    cd anthos-terraform/aws
    ```
+
+1. Install the AWS CLI
+
+Linux below, others can be found [here](https://docs.aws.amazon.com/cli/latest/userguide/)getting-started-install.html)
+```bash
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+```
+
+Setup the AWS CLI with your [access key and secret](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-prereqs.html#getting-started-prereqs-keys)
+```bash
+aws configure
+```
 
 ## Deploy Anthos on Azure cluster
 
@@ -66,6 +74,17 @@ gcloud alpha container azure get-server-config --location [gcp-region]
    ```bash
    terraform apply 
    ```
+1.  Authorize Cloud Logging / Cloud Monitoring
+
+ Enable logging if this is your first cluster in this project. You can only do this after the first cluster has been created. 
+ ( [read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth) )
+  ``` bash
+  gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member="serviceAccount:${PROJECT_ID}.svc.id.goog[gke-system/gke-telemetry-agent]" \
+  --role=roles/gkemulticloud.telemetryWriter
+  ```
+
+
  1. Login to the Cluster
 
    ```bash
