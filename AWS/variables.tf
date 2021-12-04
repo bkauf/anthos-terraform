@@ -1,6 +1,6 @@
 
 variable "anthos_prefix" {
-  description = "Prefix to apply to Anthos AWS Cluster, Node, and AWS Policy & Network names"
+  description = "AWS Cluster name which will be a prefix to your Node, AWS Policy, & Network names"
   type        = string
 
 }
