@@ -63,7 +63,7 @@ Setup the AWS CLI with your [access key and secret](https://docs.aws.amazon.com/
 aws configure
 ```
 
-## Deploy Anthos on Azure cluster
+## Deploy Anthos Clusters(GKE) on AWS
 
 1. Initialize and create terraform plan.
 
