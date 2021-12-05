@@ -14,7 +14,7 @@ locals {
 
 # Create a VPC
 # https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc
-# Step 1 & 2 from doc
+
 resource "aws_vpc" "this" {
   cidr_block           = var.vpc_cidr_block
   enable_dns_hostnames = true
@@ -45,7 +45,7 @@ resource "aws_subnet" "private_cp" {
   }
 }
 
-# Step 2, 3
+
 # Create a public subnet for the NAT gateway.
 # Mark the subnet as public.
 resource "aws_subnet" "public" {
@@ -88,15 +88,14 @@ resource "aws_route_table" "public" {
     Name = "${local.vpc_name}-public"
   }
 }
-# Step 2
+
 # Associate the public route table to the public subnet
 resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public.id
 }
 
-# Step 3 configured in "public_internet_gateway"
-# Step 4
+
 # Reservce an elastic IP address for the NAT gateway_id
 resource "aws_eip" "nat" {
   vpc = true
@@ -104,7 +103,7 @@ resource "aws_eip" "nat" {
     Name = "${local.vpc_name}-nat-${var.subnet_availability_zones[0]}"
   }
 }
-# Step 5
+
 # Associate EIP with nat gateway_id
 resource "aws_nat_gateway" "this" {
   allocation_id = aws_eip.nat.id
@@ -114,20 +113,20 @@ resource "aws_nat_gateway" "this" {
   }
   depends_on = [aws_internet_gateway.this]
 }
-# Step 6
+
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.this.id
   tags = {
     Name = "${local.vpc_name}-private"
   }
 }
-# Step 7
+
 resource "aws_route_table_association" "private" {
   count          = local.az_count
   subnet_id      = aws_subnet.private_cp[count.index].id
   route_table_id = aws_route_table.private.id
 }
-# Step 8
+
 resource "aws_route" "private_nat_gateway" {
   route_table_id         = aws_route_table.private.id
   nat_gateway_id         = aws_nat_gateway.this.id
@@ -137,8 +136,8 @@ resource "aws_route" "private_nat_gateway" {
   }
 }
 
-# Create node pool subnets
-# Step 1
+# Create node pool subnet
+
 resource "aws_subnet" "private_np" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = var.np_private_subnet_cidr_blocks[0]
@@ -148,7 +147,7 @@ resource "aws_subnet" "private_np" {
     "kubernetes.io/role/internal-elb" = "1"
   }
 }
-# Step 2
+
 resource "aws_route_table_association" "np_private" {
   subnet_id      = aws_subnet.private_np.id
   route_table_id = aws_route_table.private.id

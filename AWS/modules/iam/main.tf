@@ -8,8 +8,8 @@ terraform {
 }
 
 # Create Anthos Multi-Cloud API role
-# https://cloud.devsite.corp.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-iam-roles#create_role
-# Step 1 in doc
+# https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-iam-roles
+
 data "aws_iam_policy_document" "api_assume_role_policy_document" {
   statement {
     effect = "Allow"
@@ -35,7 +35,7 @@ resource "aws_iam_role" "api_role" {
   assume_role_policy = data.aws_iam_policy_document.api_assume_role_policy_document.json
 
 }
-# Step 2 in doc
+
 data "aws_iam_policy_document" "api_policy_document" {
   statement {
     effect = "Allow"
@@ -106,8 +106,8 @@ resource "aws_iam_role_policy_attachment" "api_role_policy_attachment" {
 
 
 # Create the control plane role
-# https://cloud.devsite.corp.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-iam-roles#create_the_control_plane_role
-# Step 1 in doc
+# https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-iam-roles#create_the_control_plane_role
+
 data "aws_iam_policy_document" "cp_assume_role_policy_document" {
   statement {
     effect = "Allow"
@@ -124,7 +124,7 @@ resource "aws_iam_role" "cp_role" {
   assume_role_policy = data.aws_iam_policy_document.cp_assume_role_policy_document.json
 
 }
-# Step 2 in doc
+
 data "aws_iam_policy_document" "cp_policy_document" {
   statement {
     effect = "Allow"
@@ -210,7 +210,8 @@ resource "aws_iam_policy" "cp_policy" {
   path   = "/"
   policy = data.aws_iam_policy_document.cp_policy_document.json
 }
-# Step 3 in doc
+
+
 resource "aws_iam_role_policy_attachment" "cp_role_policy_attachment" {
   role       = aws_iam_role.cp_role.name
   policy_arn = aws_iam_policy.cp_policy.arn
@@ -222,8 +223,8 @@ resource "aws_iam_instance_profile" "cp_instance_profile" {
 }
 
 # Create the node pool role
-# https://cloud.devsite.corp.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-iam-roles#create_a_node_pool_iam_role
-# Step 1 in doc
+# https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-iam-roles#create_a_node_pool_iam_role
+
 data "aws_iam_policy_document" "np_assume_role_policy_document" {
   statement {
     effect = "Allow"
@@ -240,7 +241,7 @@ resource "aws_iam_role" "np_role" {
   assume_role_policy = data.aws_iam_policy_document.np_assume_role_policy_document.json
 
 }
-# Step 2 in doc
+
 data "aws_iam_policy_document" "np_policy_document" {
   statement {
     effect = "Allow"
@@ -266,12 +267,12 @@ resource "aws_iam_policy" "np_policy" {
   path   = "/"
   policy = data.aws_iam_policy_document.np_policy_document.json
 }
-# Step 3 in doc
+
 resource "aws_iam_role_policy_attachment" "np_role_policy_attachment" {
   role       = aws_iam_role.np_role.name
   policy_arn = aws_iam_policy.np_policy.arn
 }
-# Step 4 & 5 in doc
+
 resource "aws_iam_instance_profile" "np_instance_profile" {
   name = "${var.anthos_prefix}-anthos-np-instance-profile"
   role = aws_iam_role.np_role.id
