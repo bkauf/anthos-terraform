@@ -5,10 +5,25 @@ variable "anthos_prefix" {
 
 }
 
+variable "gcp_project_number" {
+  description = "Enter the project number of the gcp project where the cluster will be registered."
+  type        = string
+}
+
 variable "aws_region" {
   description = "AWS region to deploy to"
   type        = string
   default     = "us-east-1"
+}
+
+variable "subnet_availability_zones" {
+  description = "Availability zones to create subnets in, 3 for control plane"
+  type        = list(string)
+  default = [
+    "us-east-1a",
+    "us-east-1b",
+    "us-east-1c",
+  ]
 }
 
 variable "gcp_location" {
@@ -23,16 +38,13 @@ variable "iam_role_path" {
   default     = "/"
 }
 
-variable "gcp_project" {
-  description = "Name of the gcp project where the cluster will be registered."
-  type        = string
+#variable "gcp_project" {
+#  description = "Name of the gcp project where the cluster will be registered."
+#  type        = string
  
-}
+#}
 
-variable "gcp_project_number" {
-  description = "Enter the project number of the gcp project where the cluster will be registered."
-  type        = string
-}
+
 
 variable "vpc_cidr_block" {
   description = "CIDR block to use for VPC"
@@ -40,15 +52,7 @@ variable "vpc_cidr_block" {
   default     = "10.0.0.0/16"
 }
 
-variable "subnet_availability_zones" {
-  description = "Availability zones to create subnets in, 3 for contorl plane, 1 for node pools"
-  type        = list(string)
-  default = [
-    "us-east-1a",
-    "us-east-1b",
-    "us-east-1c",
-  ]
-}
+
 
 variable "public_subnet_cidr_blocks" {
   description = "CIDR blocks to use for public subnets"

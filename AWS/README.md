@@ -21,7 +21,7 @@ gcloud component update
 1. Configure GCP Terraform authentication.
 
    ```bash
-   echo PROJECT_ID=Your GCP Project ID
+   PROJECT_ID=Your GCP Project ID
 
    gcloud config set project "${PROJECT_ID}"
    gcloud auth application-default login --no-launch-browser

@@ -13,7 +13,7 @@ locals {
 }
 
 # Create a VPC
-# https://cloud.devsite.corp.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc
+# https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc
 # Step 1 & 2 from doc
 resource "aws_vpc" "this" {
   cidr_block           = var.vpc_cidr_block
@@ -25,14 +25,14 @@ resource "aws_vpc" "this" {
 }
 
 # Create sample VPC
-# https://cloud.devsite.corp.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc#sample_vpc
+# https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc
 # Create 4 private subnets and 1 public subnet. 
 # Three private subnets are used by the Anthos on AWS control planes (running in three zones)
 # and one or more private subnets is used by node pools.
 # The public subnets is used by the load balancers for associated services.
 
 # Create 3 control plane subnets
-# https://cloud.devsite.corp.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc#create_the_control_plane_subnets
+# https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc
 # Step 1
 resource "aws_subnet" "private_cp" {
   count             = local.az_count
@@ -79,7 +79,7 @@ resource "aws_route" "public_internet_gateway" {
 }
 
 # Configure the routing table
-# https://cloud.devsite.corp.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc#configure_the_routing_table
+# https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc#configure_the_routing_tables_for_private_subnets
 # Step 1
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.this.id
