@@ -111,7 +111,7 @@ Supported instance types in Azure can be found [here](https://cloud.google.com/a
    kubectl get nodes
    ```
 
-## Delete Anthos on Azure cluster
+## Delete Anthos on Azure Cluster
 
 1. Run the following command to delete Anthos on Azure cluster.
 

@@ -99,7 +99,7 @@ gcloud component update
    kubectl get nodes
    ```
 
-## Delete Anthos on AWS cluster
+## Delete Anthos on AWS Cluster
 
 1. Run the following command to delete Anthos on AWS cluster.
 
