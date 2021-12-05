@@ -17,7 +17,7 @@ variable "aws_region" {
 }
 
 variable "subnet_availability_zones" {
-  description = "Availability zones to create subnets in, 3 for control plane"
+  description = "Availability zones to create subnets in, np will be created in the first"
   type        = list(string)
   default = [
     "us-east-1a",
@@ -25,6 +25,9 @@ variable "subnet_availability_zones" {
     "us-east-1c",
   ]
 }
+
+# Use the following command to identify the correct GCP location for a given AWS region
+#gcloud container aws get-server-config --location [gcp-region]
 
 variable "gcp_location" {
   description = "GCP region to deploy to"
@@ -38,21 +41,12 @@ variable "iam_role_path" {
   default     = "/"
 }
 
-#variable "gcp_project" {
-#  description = "Name of the gcp project where the cluster will be registered."
-#  type        = string
- 
-#}
-
-
 
 variable "vpc_cidr_block" {
   description = "CIDR block to use for VPC"
   type        = string
   default     = "10.0.0.0/16"
 }
-
-
 
 variable "public_subnet_cidr_blocks" {
   description = "CIDR blocks to use for public subnets"
