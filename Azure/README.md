@@ -3,11 +3,13 @@
 ## Notes:
 ![Anthos Multi-Cloud](Anthos-Multi-Azure.png)
 
-This terraform script will install all relevant IaaS in Azure(VNet, App Registration, Resource Groups, KMS) and then deploy Anthos GKE with 3 control plane nodes(1 in each AZ) of type [Standard_B2s](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-b-series-burstable) and a single node pool of type Standard_B2s with 1 node in an autoscaling group to max 3 nodes to the Azure East US region. Supported instance types in Azure can be found [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/azure/reference/supported-vms).  After the cluster has been installed it will show up in your GKE page of the GCP console in your relevant GCP project. For best results please run this script in [GCP Cloud Shell](https://cloud.google.com/shell/docs/using-cloud-shelll). The Multi-Cloud API is regonal - For a list of Azure regions and assocaited K8s version supported per GCP region please use this command:
+This terraform script will install all relevant IaaS in Azure(VNet, App Registration, Resource Groups, KMS) and then deploy Anthos GKE with 3 control plane nodes(1 in each AZ) of type [Standard_B2s](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-b-series-burstable) and a single node pool of type Standard_B2s with 1 node in an autoscaling group to max 3 nodes to the Azure East US region. You can adjust the region and AZs in the variables.tf file in the environments/prod directory. For a list of Azure regions and associated K8s version supported per GCP region please use this command:
 
 ```bash
 gcloud alpha container azure get-server-config --location [gcp-region]
 ```
+Supported instance types in Azure can be found [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/azure/reference/supported-vms).  After the cluster has been installed it will show up in your GKE page of the GCP console in your relevant GCP project. For best results please run this script in [GCP Cloud Shell](https://cloud.google.com/shell/docs/using-cloud-shelll).
+
 
  This script is meant to be a quick start to working with Anthos on Azure. For more information on Anthos Multi-Cloud please [click here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/).
 

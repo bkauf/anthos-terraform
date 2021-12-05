@@ -3,13 +3,14 @@
 ## Notes:
 ![Anthos Multi-Cloud](Anthos-Multi-AWS.png)
 
-This terraform script will install all relevant [IaaS prerequisites](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/prerequisites) in AWS(VPC, IAM roles, route tables, and KMS) and then deploy Anthos GKE with 3 control plane nodes(1 in each AZ) of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/) and a single node pool of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/)  with 1 node in an autoscaling group to max 3 nodes to the AWS us-east-1 region. Supported instance types in AWS can be found [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/reference/supported-instance-types).  After the cluster has been installed it will show up in your GKE page of the GCP console in your relevant GCP project. The Multi-Cloud API is regonal - For a list of Azure regions and assocaited K8s version supported per GCP region please use this command:
+This terraform script will install all relevant [IaaS prerequisites](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/prerequisites) in AWS(VPC, IAM roles, route tables, and KMS) and then deploy Anthos GKE with 3 control plane nodes(1 in each AZ) of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/) and a single node pool of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/)  with 1 node in an autoscaling group to max 3 nodes to the AWS us-east-1 region. You can adjust the region and AZs in the variables.tf file. For a list of AWS regions and associated K8s version supported per GCP region please use this command:
 
 ```bash
-gcloud container azure get-server-config --location [gcp-region]
+gcloud container aws get-server-config --location [gcp-region]
 ```
+ Supported instance types in AWS can be found [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/reference/supported-instance-types).  After the cluster has been installed it will show up in your GKE page of the GCP console in your relevant GCP project. 
 
- This script is meant to be a quick start to working with Anthos on Azure. For more information on Anthos Multi-Cloud please [click here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/).
+ This script is meant to be a quick start to working with Anthos on AWS. For more information on Anthos Multi-Cloud please [click here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/).
 
 ## Prerequisites
 
