@@ -58,18 +58,5 @@ variable "vnet_resource_group" {
   default     = "anthos-vnet"
 }
 
-#variable "role_admin" {
-#  description = "Name for the role admin"
-#  type        = string
-#  default     = "anthos-gke"
-#}
-#variable "role_vnet_admin" {
-#  description = "Name for the VNet role admin"
-#  type        = string
-#  default     = "anthos-gke"
-#}
-
-
-
 
 

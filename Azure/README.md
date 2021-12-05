@@ -48,7 +48,6 @@ gcloud alpha container azure get-server-config --location [gcp-region]
 
    ```bash
    echo PROJECT_ID=Your GCP Project ID
-   echo GCLOUD_USER=You Google user email
 
    gcloud config set project "${PROJECT_ID}"
    gcloud auth application-default login --no-launch-browser

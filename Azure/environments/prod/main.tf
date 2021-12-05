@@ -10,30 +10,11 @@ resource "tls_private_key" "anthos-ssh-key" {
   rsa_bits  = 4096
 }
 
-#module "project-services" {
-#  source = "terraform-google-modules/project-factory/google//modules/project_services"
-
- # project_id = var.gcp_project
-
- # activate_apis = [
- #   "gkemulticloud.googleapis.com",
- # ]
-#}
-
-#resource "google_project_iam_member" "multicloud" {
-#  project = module.project-services.project_id
-#  role    = "roles/gkehub.connect"
-#  member  = "serviceAccount:${module.project-services.project_id}.svc.id.goog[gke-system/gke-multicloud-agent]"
-#}
-
 
 module "aad-app" {
   source           = "../../modules/aad-app"
- # gcp_project      = module.project-services.project_id
   application_name = var.application_name
- # depends_on = [
- #   google_project_iam_member.multicloud
- # ]
+ 
 }
 
 module "cluster-vnet" {
