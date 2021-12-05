@@ -81,7 +81,7 @@ gcloud component update
 
 1. Authorize Cloud Logging / Cloud Monitoring
 
-   Enable logging if this is your first cluster in this project. You can only do this after the first cluster has been created. 
+   Enable system container logging and container metrics. You can only do this after the first Anthos cluster has been created. 
    ( [read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth) )
 
    ``` bash
