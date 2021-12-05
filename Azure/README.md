@@ -58,13 +58,13 @@ gcloud alpha container azure get-server-config --location [gcp-region]
 
    ```bash
    gcloud --project="${PROJECT_ID}" services enable \
-gkemulticloud.googleapis.com \
-gkeconnect.googleapis.com \
-connectgateway.googleapis.com \
-cloudresourcemanager.googleapis.com \
-anthos.googleapis.com \
-logging.googleapis.com \
-monitoring.googleapis.com
+   gkemulticloud.googleapis.com \
+   gkeconnect.googleapis.com \
+   connectgateway.googleapis.com \
+   cloudresourcemanager.googleapis.com \
+   anthos.googleapis.com \
+   logging.googleapis.com \
+   monitoring.googleapis.com
    ```
 
    > You can also enable services in Terraform. Take care when destroying your terraform plan as it will also disable those services. For demo purposes, enable the main services here and only the services required for Anthos on Azure (i.e. the gkemulticloud.googleapis.com) through terraform.
