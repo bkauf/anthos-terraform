@@ -99,9 +99,9 @@ gcloud component update
    kubectl get nodes
    ```
 
-## Delete Anthos on Azure cluster
+## Delete Anthos on AWS cluster
 
-1. Run the following command to delete Anthos on Azure cluster.
+1. Run the following command to delete Anthos on AWS cluster.
 
    ```bash
    terraform destroy 
