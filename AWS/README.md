@@ -46,7 +46,7 @@ gcloud component update
 
    ```bash
    git clone https://github.com/bkauf/anthos-terraform.git
-   cd anthos-terraform/aws
+   cd anthos-terraform/AWS
    ```
 
 1. Install the AWS CLI

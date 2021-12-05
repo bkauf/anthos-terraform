@@ -2,7 +2,8 @@ data "azurerm_subscription" "current" {
 }
 data "azuread_client_config" "current" {}
 
-
+#Create an Azure Active Directory application 
+#https://cloud.google.com/anthos/clusters/docs/multi-cloud/azure/how-to/create-azure-ad-application
 resource "azuread_application" "aad_app" {
   display_name = var.application_name
   owners       = [data.azuread_client_config.current.object_id]
@@ -16,8 +17,8 @@ resource "azuread_service_principal" "aad_app" {
   owners                       = [data.azuread_client_config.current.object_id]
 }
 
-# controlplane.createRoleAssignmentForProxyConfigKeyVaultNode requires service
 # principal to have permission for role assignment.
+#https://cloud.google.com/anthos/clusters/docs/multi-cloud/azure/how-to/create-azure-role-assignments
 
 resource "azurerm_role_assignment" "user_access_admin" {
   scope                = data.azurerm_subscription.current.id

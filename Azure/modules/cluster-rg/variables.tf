@@ -13,10 +13,10 @@ variable "sp_obj_id" {
   type        = string
 }
 
-variable "owner" {
-  description = "owner of the resource group"
-  type        = string
-}
+#variable "owner" {
+#  description = "owner of the resource group"
+#  type        = string
+#}
 
 variable "tags" {
   description = "The list of tags to apply to resources"

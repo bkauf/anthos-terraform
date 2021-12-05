@@ -9,6 +9,8 @@ data "azurerm_subscription" "current" {
 }
 data "azurerm_client_config" "current" {
 }
+#Create an Azure resource group
+#https://cloud.google.com/anthos/clusters/docs/multi-cloud/azure/how-to/create-azure-resource-group
 
 resource "azurerm_resource_group" "cluster" {
   name     = var.name
@@ -16,6 +18,9 @@ resource "azurerm_resource_group" "cluster" {
 
   tags = var.tags
 }
+
+#Create Azure role assignments
+#https://cloud.google.com/anthos/clusters/docs/multi-cloud/azure/how-to/create-azure-role-assignments
 
 resource "azurerm_role_assignment" "aad_app_contributor" {
   scope                = azurerm_resource_group.cluster.id
