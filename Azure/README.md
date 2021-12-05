@@ -76,34 +76,6 @@ gcloud alpha container azure get-server-config --location [gcp-region]
    cd anthos-terraform/Azure/environments/prod
    ```
 
-1. Define terraform variables.
-
-   ```bash
-   AZURE_CLUSTER=${GCLOUD_USER%@*}-anthos-cluster-1
-   AZURE_NODEPOOL=${GCLOUD_USER%@*}-anthos-cluster-1-nodepool-1
-   AZURE_REGION="East US"
-   GCP_USER=${GCLOUD_USER}
-   GCP_PROJECT_ID=${PROJECT_ID}
-   GCP_REGION="us-east4"
-   GCP_AZURE_LOCATION="eastus"
-   APP_NAME=${GCLOUD_USER%@*}-app
-   CLUSTER_RESOURCE_GROUP_NAME=${GCLOUD_USER%@*}-cluster-rg
-   VNET_RESOURCE_GROUP_NAME=${GCLOUD_USER%@*}-vnet-rg
-   VNET_NAME=${GCLOUD_USER%@*}-vnet
-   AZURE_CLIENT=${GCLOUD_USER%@*}-az-client
-   AZURE_ROLE_ADMIN_NAME=${GCLOUD_USER%@*}-role-admin
-   AZURE_ROLE_VNET_ADMIN_NAME=${GCLOUD_USER%@*}-role-vnet-admin
-
-   sed -e "s/AZURE_REGION/$AZURE_REGION/" -e "s/GCP_USER/$GCP_USER/" \
-       -e "s/GCP_PROJECT_ID/$GCP_PROJECT_ID/" -e "s/GCP_REGION/$GCP_REGION/" \
-       -e "s/APP_NAME/$APP_NAME/" -e "s/CLUSTER_RESOURCE_GROUP_NAME/$CLUSTER_RESOURCE_GROUP_NAME/" \
-       -e "s/VNET_RESOURCE_GROUP_NAME/$VNET_RESOURCE_GROUP_NAME/" -e "s/VNET_NAME/$VNET_NAME/" \
-       -e "s/AZURE_ROLE_ADMIN_NAME/$AZURE_ROLE_ADMIN_NAME/" -e "s/AZURE_ROLE_VNET_ADMIN_NAME/$AZURE_ROLE_VNET_ADMIN_NAME/" \
-       -e "s/AZURE_CLIENT/$AZURE_CLIENT/" -e "s/AZURE_CLUSTER/$AZURE_CLUSTER/" \
-       -e "s/GCP_AZURE_LOCATION/$GCP_AZURE_LOCATION/" -e "s/AZURE_NODEPOOL/$AZURE_NODEPOOL/" \
-          variables.tf.tmpl > variables.tf
-   ```
-
 ## Deploy Anthos on Azure cluster
 
 1. Initialize and create terraform plan.
@@ -115,13 +87,15 @@ gcloud alpha container azure get-server-config --location [gcp-region]
 
 1. Apply terraform.
 
+   You will need to supply your cluster name and also your project ID
+
    ```bash
    terraform apply -input=false terraform.tfplan
    ```
  1. Login to the Cluster
 
    ```bash
-   gcloud beta container hub memberships get-credentials $AZURE_CLUSTER
+   gcloud container hub memberships get-credentials $AZURE_CLUSTER
    kubectl get nodes
    ```
 
