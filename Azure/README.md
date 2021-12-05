@@ -77,7 +77,7 @@ Supported instance types in Azure can be found [here](https://cloud.google.com/a
    cd anthos-terraform/Azure/environments/prod
    ```
 
-## Deploy Anthos on Azure cluster
+## Deploy Anthos Clusters(GKE) on Azure cluster
 
 1. Initialize and create terraform plan.
 
