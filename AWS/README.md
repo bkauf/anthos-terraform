@@ -78,7 +78,7 @@ gcloud component update
    ```bash
    terraform apply 
    ```
-   You will be then asked for your cluster name, GCP project name, and project ID. Once started the installation process will take about 10 minutes. **The file output of the script will container the varialbles for the anthos install** if you need to create more node pools in the future.
+   You will be then asked for your cluster name, GCP project name, and project ID. Once started the installation process will take about 10 minutes. **The final output of the script will contain the varialbles for the anthos install** if you need to create more node pools manually in the future.
 
 1. Authorize Cloud Logging / Cloud Monitoring
 
