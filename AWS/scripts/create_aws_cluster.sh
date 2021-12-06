@@ -10,10 +10,11 @@ set -e
   --config-encryption-kms-key-arn=$5 \
   --database-encryption-kms-key-arn=$5 \
   --iam-instance-profile=$6 \
-  --pod-address-cidr-blocks="10.2.0.0/16" \
+  --pod-address-cidr-blocks=${11} \
   --role-arn=$7 \
-  --service-address-cidr-blocks="10.1.0.0/16" \
+  --service-address-cidr-blocks=${12} \
   --subnet-ids=${8} \
   --vpc-id=${9} \
+  --fleet-project=${10} \
   --tags="Name=${1}-cp" \
-  --fleet-project=${10}
+  

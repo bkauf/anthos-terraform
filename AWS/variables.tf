@@ -9,6 +9,10 @@ variable "gcp_project_number" {
   description = "Enter the project number of the gcp project where the cluster will be registered."
   type        = string
 }
+variable "gcp_project_id" {
+  description = "Enter the project id of the gcp project where the cluster will be registered."
+  type        = string
+}
 
 variable "aws_region" {
   description = "AWS region to deploy to"
@@ -82,6 +86,35 @@ variable "public_subnet_cidr_block" {
   type        = string
   default     = "10.0.101.0/24"
 }
+
+
+variable "pod_address_cidr_blocks" {
+  description = "CIDR Block to use for pod subnet"
+  type        = string
+  default     = "10.2.0.0/16"
+}
+
+variable "service_address_cidr_blocks" {
+  description = "CIDR Block to use for service subnet"
+  type        = string
+  default     = "10.1.0.0/16"
+}
+
+variable "node_pool_instance_type" {
+  description = "AWS Node instance type"
+  type        = string
+  default     = "t3.medium"
+}
+
+variable "cluster_version" {
+  description = "GKE version to install"
+  type        = string
+  default     = "1.21.5-gke.2800"
+
+}
+
+
+
 
 
 
