@@ -96,7 +96,7 @@ Supported instance types in Azure can be found [here](https://cloud.google.com/a
 1. Authorize Cloud Logging / Cloud Monitoring
 
    Enable system container logging and container metrics. You can only do this after the first Anthos cluster has been created. 
-   ( [read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth) )
+   ([read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth))
 
    ``` bash
    gcloud projects add-iam-policy-binding ${PROJECT_ID} \
