@@ -10,16 +10,6 @@ resource "tls_private_key" "anthos_ssh_key" {
   rsa_bits  = 4096
 }
 
-# module "project_services" {
-#   source = "terraform-google-modules/project-factory/google//modules/project_services"
-
-#   project_id = var.gcp_project
-
-#   activate_apis = [
-#     "gkemulticloud.googleapis.com",
-#   ]
-# }
-
 module "aad_app" {
   source           = "./modules/aad-app"
   gcp_project      = var.gcp_project
@@ -72,7 +62,7 @@ module "anthos_cluster" {
 
 module "hub_feature" {
   source     = "./modules/hub_feature"
-  membership = "projects/${var.gcp_project_number}/locations/global/memberships/${module.anthos_cluster.cluster_name}"
+  membership = module.anthos_cluster.fleet_membership
   depends_on = [module.anthos_cluster]
 }
 

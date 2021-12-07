@@ -6,23 +6,11 @@ module "azure_client" {
   application_id = var.application_id
 }
 
-data "external" "azure_client_cert" {
-  program = ["bash", "${path.root}/scripts/azure_client_cert.sh"]
-  query = {
-    GCP_REGION   = var.location
-    AZURE_CLIENT = module.azure_client.client
-  }
-  depends_on = [
-    module.azure_client
-  ]
-}
-
 resource "azuread_application_certificate" "aad_app_azure_client_cert" {
   application_object_id = var.application_object_id
   type                  = "AsymmetricX509Cert"
-  value                 = data.external.azure_client_cert.result.AZURE_CLIENT_CERT
-  # value                 = module.azure_client.certificate
-  end_date_relative = "8760h"
+  value                 = module.azure_client.certificate
+  end_date_relative     = "8760h"
 }
 
 resource "time_sleep" "wait_for_aad_app_azure_client_cert" {
@@ -32,7 +20,6 @@ resource "time_sleep" "wait_for_aad_app_azure_client_cert" {
 
 resource "google_container_azure_cluster" "this" {
   client            = "projects/${var.project_number}/locations/${var.location}/azureClients/${module.azure_client.client_name}"
-  # client            = module.azure_client.client
   azure_region      = var.azure_region
   description       = "Test Azure cluster created with Terraform"
   location          = var.location
@@ -70,13 +57,13 @@ resource "google_container_azure_cluster" "this" {
   }
   depends_on = [time_sleep.wait_for_aad_app_azure_client_cert]
 }
+
 resource "google_container_azure_node_pool" "azure_node_pool" {
-  cluster                 = google_container_azure_cluster.this.id
-  version                 = var.cluster_version
-  location                = var.location
-  # azure_availability_zone = "1"
-  name                    = "${var.anthos_prefix}-nodepool"
-  subnet_id               = var.subnet_id
+  cluster   = google_container_azure_cluster.this.id
+  version   = var.cluster_version
+  location  = var.location
+  name      = "${var.anthos_prefix}-nodepool"
+  subnet_id = var.subnet_id
   autoscaling {
     min_node_count = 1
     max_node_count = 5

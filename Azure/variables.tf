@@ -27,7 +27,6 @@ variable "admin_user" {
   description = "Admin user"
   type        = string
 }
-variable "endpoint" {
-}
+
 
 
