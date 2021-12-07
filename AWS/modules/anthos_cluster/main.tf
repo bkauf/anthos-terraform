@@ -1,3 +1,10 @@
+data "google_project" "project" {
+}
+
+output "project_number" {
+  value = data.google_project.project.number
+}
+
 resource "google_container_aws_cluster" "this" {
   aws_region  = var.aws_region
   description = "Test AWS cluster created with Terraform"

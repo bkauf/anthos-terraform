@@ -1,6 +1,6 @@
 
 variable "anthos_prefix" {
-  description = "Prefix to apply to Anthos AWS Policy & Network names"
+  description = "Prefix for all resource names"
   type        = string
 }
 
@@ -11,7 +11,7 @@ variable "aws_region" {
 }
 
 variable "gcp_location" {
-  description = "GCP region to deploy to"
+  description = "GCP location to deploy to"
   type        = string
   default     = "us-east4"
 }
@@ -27,11 +27,6 @@ variable "gcp_project" {
   type        = string
 }
 
-variable "gcp_project_number" {
-  description = "Enter the project number of the gcp project where the cluster will be registered."
-  type        = string
-}
-
 variable "vpc_cidr_block" {
   description = "CIDR block to use for VPC"
   type        = string
@@ -39,7 +34,7 @@ variable "vpc_cidr_block" {
 }
 
 variable "subnet_availability_zones" {
-  description = "Availability zones to create subnets in, 3 for contorl plane, 1 for node pools"
+  description = "Availability zones to create subnets in"
   type        = list(string)
   default = [
     "us-east-2a",

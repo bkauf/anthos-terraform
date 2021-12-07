@@ -5,7 +5,7 @@ module "kms" {
 
 module "iam" {
   source             = "./modules/iam"
-  gcp_project_number = var.gcp_project_number
+  gcp_project_number = module.gcp_project.project_number
   anthos_prefix      = var.anthos_prefix
   db_kms_arn         = module.kms.database_encryption_kms_key_arn
 }
@@ -21,6 +21,10 @@ module "vpc" {
   np_private_subnet_cidr_blocks = var.np_private_subnet_cidr_blocks
 }
 
+module "gcp_project" {
+  source = "./modules/gcp_project"
+}
+
 module "anthos_cluster" {
   source                          = "./modules/anthos_cluster"
   anthos_prefix                   = var.anthos_prefix
@@ -34,7 +38,7 @@ module "anthos_cluster" {
   role_arn                        = module.iam.api_role_arn
   subnet_ids                      = [module.vpc.aws_cp_subnet_id_1, module.vpc.aws_cp_subnet_id_2, module.vpc.aws_cp_subnet_id_3]
   node_pool_subnet_id             = module.vpc.aws_np_subnet_id_1
-  fleet_project                   = "projects/${var.gcp_project_number}"
+  fleet_project                   = "projects/${module.gcp_project.project_number}"
   depends_on                      = [module.kms, module.iam, module.vpc]
 }
 
