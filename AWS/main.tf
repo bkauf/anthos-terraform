@@ -1,12 +1,6 @@
-locals {
-  endpoint        = "https://us-west1-preprod-gkemulticloud.sandbox.googleapis.com/"
-  cluster_version = "1.21.5-gke.2800"
-}
-
 module "kms" {
   source        = "./modules/kms"
   anthos_prefix = var.anthos_prefix
-
 }
 
 module "iam" {
@@ -45,9 +39,8 @@ module "anthos_cluster" {
 }
 
 module "hub_feature" {
-  source = "./modules/hub_feature"
-  # membership = module.anthos_cluster.memberships
-  membership = "projects/${var.gcp_project_number}/locations/global/memberships/${module.anthos_cluster.cluster_name}"
+  source     = "./modules/hub_feature"
+  membership = module.anthos_cluster.fleet_membership
   depends_on = [module.anthos_cluster]
 }
 

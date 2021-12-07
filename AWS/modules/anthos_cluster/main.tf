@@ -11,14 +11,13 @@ resource "google_container_aws_cluster" "this" {
   control_plane {
     iam_instance_profile = var.iam_instance_profile
     instance_type        = "t3.medium"
-    subnet_ids           = var.subnet_ids
+    subnet_ids = var.subnet_ids
     tags = {
       "client" : "Terraform"
     }
     version = var.cluster_version
     aws_services_authentication {
-      role_arn          = var.role_arn
-      role_session_name = "multicloud-service-agent"
+      role_arn = var.role_arn
     }
     config_encryption {
       kms_key_arn = var.database_encryption_kms_key_arn
@@ -40,10 +39,9 @@ resource "google_container_aws_cluster" "this" {
     }
   }
   networking {
-    service_load_balancer_subnet_ids = []
-    pod_address_cidr_blocks          = var.pod_address_cidr_blocks
-    service_address_cidr_blocks      = var.service_address_cidr_blocks
-    vpc_id                           = var.vpc_id
+    pod_address_cidr_blocks     = var.pod_address_cidr_blocks
+    service_address_cidr_blocks = var.service_address_cidr_blocks
+    vpc_id                      = var.vpc_id
   }
   fleet {
     project = var.fleet_project

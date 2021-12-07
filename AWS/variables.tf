@@ -94,9 +94,5 @@ variable "cluster_version" {
   default     = "1.21.5-gke.2800"
 }
 
-variable "endpoint" {
-  default = "https://us-east4-gkemulticloud.googleapis.com/v1/"
-}
-
 
 

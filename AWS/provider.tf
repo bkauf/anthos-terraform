@@ -3,8 +3,7 @@ provider "aws" {
   region  = var.aws_region
 }
 provider "google" {
-  project                       = var.gcp_project
-  container_aws_custom_endpoint = var.endpoint
+  project = var.gcp_project
 }
 provider "google-beta" {
   project = var.gcp_project
