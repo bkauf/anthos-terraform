@@ -167,6 +167,7 @@ data "aws_iam_policy_document" "cp_policy_document" {
                 "ec2:DescribeVolumesModifications",
                 "ec2:DescribeVolumes",
                 "ec2:DescribeTags",
+                "ec2:DescribeDhcpOptions",
                 "ec2:DescribeSubnets",
                 "ec2:DescribeSnapshots",
                 "ec2:DescribeSecurityGroups",
@@ -248,7 +249,6 @@ data "aws_iam_policy_document" "np_policy_document" {
     actions = [
       "autoscaling:DescribeAutoScalingGroups",
       "ec2:AttachNetworkInterface",
-      "ec2:DescribeDhcpOptions",
       "ec2:DescribeInstances",
       "ec2:DescribeTags",
     ]
