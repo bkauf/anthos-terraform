@@ -71,7 +71,6 @@ data "aws_iam_policy_document" "api_policy_document" {
                 "ec2:DescribeKeyPairs",
                 "ec2:DeleteVolume",
                 "ec2:DeleteTags",
-                "ec2:DescribeDhcpOptions",
                 "ec2:DeleteSecurityGroup",
                 "ec2:DeleteNetworkInterface",
                 "ec2:DeleteLaunchTemplate",
