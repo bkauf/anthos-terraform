@@ -4,11 +4,13 @@ variable "region" {
   default     = "east us"
 }
 
+
 variable "azure_cluster" {
-  description = "Name for the Anthos on Azure cluster"
+  description = "Name for the Anthos on Azure cluster, this will be the prefix for all artifacts created"
   type        = string
  
 }
+
 
 variable "gcp_project_id" {
   description = "GCP project ID to register the Anthos Cluster to"
@@ -28,35 +30,35 @@ variable "gcp_azure_location" {
   default     = "eastus"
 }
 
-variable "application_name" {
-  description = "Azure Application Name for IAM. EX: Anthos-GKE"
-  type        = string
-  default     = "gcp-anthos"
+#variable "application_name" {
+#  description = "Azure Application Name for IAM. EX: Anthos-GKE"
+#  type        = string
+#  default     = "gcp-anthos"
  
-}
+#}
 
-variable "azure_client" {
-  description = "Name for the GCP Azure client"
-  type        = string
-  default     = "gcp-anthos"
-}
+#variable "azure_client" {
+#  description = "Name for the GCP Azure client"
+#  type        = string
+#  default     = "gcp-anthos"
+#}
 
 
-variable "cluster_rg" {
-  description = "Name for the Cluster Resource Group"
-  type        = string
-  default     = "anthos-gke"
-}
-variable "vnet_name" {
-  description = "Name of VNet to create"
-  type        = string
-  default     = "anthos-gke"
-}
-variable "vnet_resource_group" {
-  description = "Azure VNet resouce group"
-  type        = string
-  default     = "anthos-vnet"
-}
+#variable "cluster_rg" {
+#  description = "Name for the Cluster Resource Group"
+#  type        = string
+#  default     = "anthos-gke"
+#}
+#variable "vnet_name" {
+#  description = "Name of VNet to create"
+#  type        = string
+#  default     = "anthos-gke"
+#}
+#variable "vnet_resource_group" {
+#  description = "Azure VNet resouce group"
+#  type        = string
+#  default     = "anthos-vnet"
+#}
 
 
 
