@@ -18,7 +18,7 @@ resource "google_container_aws_cluster" "this" {
   control_plane {
     iam_instance_profile = var.iam_instance_profile
     instance_type        = "t3.medium"
-    subnet_ids = var.subnet_ids
+    subnet_ids           = var.subnet_ids
     tags = {
       "client" : "Terraform"
     }

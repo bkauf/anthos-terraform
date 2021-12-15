@@ -22,7 +22,7 @@ variable "admin_user" {
 variable "cluster_version" {
   description = "Cluster version"
   type        = string
-  default     = "1.21.5-gke.2800"
+  default     = ""
 }
 
 
