@@ -53,6 +53,11 @@ resource "google_container_aws_cluster" "this" {
   fleet {
     project = var.fleet_project
   }
+  timeouts {
+    create = "45m"
+    update = "45m"
+    delete = "45m"
+  }
 }
 resource "google_container_aws_node_pool" "this" {
   name      = "${var.anthos_prefix}-nodepool"
@@ -82,5 +87,10 @@ resource "google_container_aws_node_pool" "this" {
     tags = {
       "client" : "Terraform"
     }
+  }
+  timeouts {
+    create = "45m"
+    update = "45m"
+    delete = "45m"
   }
 }

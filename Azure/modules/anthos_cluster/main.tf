@@ -56,6 +56,11 @@ resource "google_container_azure_cluster" "this" {
     project = var.fleet_project
   }
   depends_on = [time_sleep.wait_for_aad_app_azure_client_cert]
+  timeouts {
+    create = "45m"
+    update = "45m"
+    delete = "45m"
+  }
 }
 
 resource "google_container_azure_node_pool" "azure_node_pool" {
@@ -82,5 +87,10 @@ resource "google_container_azure_node_pool" "azure_node_pool" {
   }
   max_pods_constraint {
     max_pods_per_node = 110
+  }
+  timeouts {
+    create = "45m"
+    update = "45m"
+    delete = "45m"
   }
 }
