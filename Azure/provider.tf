@@ -6,7 +6,10 @@ terraform {
     azurerm = {
       source = "hashicorp/azurerm"
     }
-
+    google = {
+      source = "hashicorp/google"
+      version = ">= 4.5.0"
+    }
   }
   required_version = ">= 0.13"
 }
@@ -18,4 +21,10 @@ provider "azurerm" {
 
 provider "azuread" {
   #  version = "=1.6.0"
+}
+provider "google" {
+  project = var.gcp_project
+}
+provider "google-beta" {
+  project = var.gcp_project
 }

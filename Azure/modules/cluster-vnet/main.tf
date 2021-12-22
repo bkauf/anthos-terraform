@@ -3,9 +3,8 @@ data "azurerm_subscription" "current" {
 }
 
 resource "azurerm_resource_group" "vnet" {
-  name     = var.vnet_resource_group
   location = var.region
-
+  name     = "${var.name}-byo"
 }
 
 #Create VNet

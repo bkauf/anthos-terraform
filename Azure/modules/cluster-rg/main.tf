@@ -15,8 +15,6 @@ data "azurerm_client_config" "current" {
 resource "azurerm_resource_group" "cluster" {
   name     = var.name
   location = var.region
-
-  tags = var.tags
 }
 
 #Create Azure role assignments

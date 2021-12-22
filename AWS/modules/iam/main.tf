@@ -22,8 +22,7 @@ data "aws_iam_policy_document" "api_assume_role_policy_document" {
       test     = "StringEquals"
       variable = "accounts.google.com:sub"
       values = [
-        "service-${var.gcp_project_number}@gcp-sa-gkemulticloud.iam.gserviceaccount.com",
-        "service-${var.gcp_project_number}@gcp-sa-preprod-gkemulticloud.iam.gserviceaccount.com",
+        "service-${var.gcp_project_number}@gcp-sa-gkemulticloud.iam.gserviceaccount.com"
       ]
     }
   }
@@ -40,6 +39,56 @@ data "aws_iam_policy_document" "api_policy_document" {
   statement {
     effect = "Allow"
     actions = [
+<<<<<<< HEAD
+      "kms:Encrypt",
+      "kms:DescribeKey",
+      "iam:CreateServiceLinkedRole",
+      "iam:PassRole",
+      "elasticloadbalancing:DescribeTargetHealth",
+      "elasticloadbalancing:DescribeTargetGroups",
+      "elasticloadbalancing:DescribeLoadBalancers",
+      "elasticloadbalancing:DescribeListeners",
+      "elasticloadbalancing:DeleteTargetGroup",
+      "elasticloadbalancing:DeleteLoadBalancer",
+      "elasticloadbalancing:DeleteListener",
+      "elasticloadbalancing:CreateTargetGroup",
+      "elasticloadbalancing:CreateLoadBalancer",
+      "elasticloadbalancing:CreateListener",
+      "elasticloadbalancing:AddTags",
+      "elasticloadbalancing:ModifyTargetGroupAttributes",
+      "ec2:DescribeAccountAttributes",
+      "ec2:DescribeInternetGateways",
+      "ec2:RunInstances",
+      "ec2:RevokeSecurityGroupIngress",
+      "ec2:RevokeSecurityGroupEgress",
+      "ec2:DescribeVpcs",
+      "ec2:DescribeVolumes",
+      "ec2:DescribeSubnets",
+      "ec2:DescribeSecurityGroups",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:DescribeLaunchTemplates",
+      "ec2:DescribeKeyPairs",
+      "ec2:DeleteVolume",
+      "ec2:DeleteTags",
+      "ec2:DescribeDhcpOptions",
+      "ec2:DeleteSecurityGroup",
+      "ec2:DeleteNetworkInterface",
+      "ec2:DeleteLaunchTemplate",
+      "ec2:CreateVolume",
+      "ec2:CreateTags",
+      "ec2:CreateSecurityGroup",
+      "ec2:CreateNetworkInterface",
+      "ec2:CreateLaunchTemplate",
+      "ec2:AuthorizeSecurityGroupIngress",
+      "ec2:AuthorizeSecurityGroupEgress",
+      "autoscaling:UpdateAutoScalingGroup",
+      "autoscaling:TerminateInstanceInAutoScalingGroup",
+      "autoscaling:DescribeAutoScalingGroups",
+      "autoscaling:DeleteTags",
+      "autoscaling:DeleteAutoScalingGroup",
+      "autoscaling:CreateOrUpdateTags",
+      "autoscaling:CreateAutoScalingGroup"
+=======
      "iam:CreateServiceLinkedRole",
                  "kms:Encrypt",
                 "kms:DescribeKey",
@@ -88,6 +137,7 @@ data "aws_iam_policy_document" "api_policy_document" {
                 "autoscaling:DeleteAutoScalingGroup",
                 "autoscaling:CreateOrUpdateTags",
                 "autoscaling:CreateAutoScalingGroup",
+>>>>>>> main
     ]
     resources = ["*"]
   }
@@ -129,6 +179,71 @@ data "aws_iam_policy_document" "cp_policy_document" {
     effect = "Allow"
     actions = [
       "iam:CreateServiceLinkedRole",
+<<<<<<< HEAD
+      "elasticloadbalancing:SetLoadBalancerPoliciesOfListener",
+      "elasticloadbalancing:SetLoadBalancerPoliciesForBackendServer",
+      "elasticloadbalancing:RegisterTargets",
+      "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+      "elasticloadbalancing:ModifyTargetGroup",
+      "elasticloadbalancing:ModifyLoadBalancerAttributes",
+      "elasticloadbalancing:ModifyListener",
+      "elasticloadbalancing:DetachLoadBalancerFromSubnets",
+      "elasticloadbalancing:DescribeTargetHealth",
+      "elasticloadbalancing:DescribeTargetGroups",
+      "elasticloadbalancing:DescribeLoadBalancers",
+      "elasticloadbalancing:DescribeLoadBalancerPolicies",
+      "elasticloadbalancing:DescribeLoadBalancerAttributes",
+      "elasticloadbalancing:DescribeListeners",
+      "elasticloadbalancing:DeregisterTargets",
+      "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+      "elasticloadbalancing:DeleteTargetGroup",
+      "elasticloadbalancing:DeleteLoadBalancerListeners",
+      "elasticloadbalancing:DeleteLoadBalancer",
+      "elasticloadbalancing:DeleteListener",
+      "elasticloadbalancing:CreateTargetGroup",
+      "elasticloadbalancing:CreateLoadBalancerPolicy",
+      "elasticloadbalancing:CreateLoadBalancerListeners",
+      "elasticloadbalancing:CreateLoadBalancer",
+      "elasticloadbalancing:CreateListener",
+      "elasticloadbalancing:ConfigureHealthCheck",
+      "elasticloadbalancing:AttachLoadBalancerToSubnets",
+      "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
+      "elasticloadbalancing:AddTags",
+      "ec2:RevokeSecurityGroupIngress",
+      "ec2:ModifyVolume",
+      "ec2:ModifyInstanceAttribute",
+      "ec2:DetachVolume",
+      "ec2:DescribeVpcs",
+      "ec2:DescribeVolumesModifications",
+      "ec2:DescribeVolumes",
+      "ec2:DescribeTags",
+      "ec2:DescribeSubnets",
+      "ec2:DescribeSnapshots",
+      "ec2:DescribeSecurityGroups",
+      "ec2:DescribeRouteTables",
+      "ec2:DescribeRegions",
+      "ec2:DescribeLaunchTemplateVersions",
+      "ec2:DescribeInstances",
+      "ec2:DeleteVolume",
+      "ec2:DeleteTags",
+      "ec2:DeleteSnapshot",
+      "ec2:DeleteSecurityGroup",
+      "ec2:DeleteRoute",
+      "ec2:CreateVolume",
+      "ec2:CreateTags",
+      "ec2:CreateSnapshot",
+      "ec2:CreateSecurityGroup",
+      "ec2:CreateRoute",
+      "ec2:AuthorizeSecurityGroupIngress",
+      "ec2:AttachVolume",
+      "ec2:AttachNetworkInterface",
+      "autoscaling:TerminateInstanceInAutoScalingGroup",
+      "autoscaling:SetDesiredCapacity",
+      "autoscaling:DescribeTags",
+      "autoscaling:DescribeLaunchConfigurations",
+      "autoscaling:DescribeAutoScalingInstances",
+      "autoscaling:DescribeAutoScalingGroups"
+=======
                 "elasticloadbalancing:SetLoadBalancerPoliciesOfListener",
                 "elasticloadbalancing:SetLoadBalancerPoliciesForBackendServer",
                 "elasticloadbalancing:RegisterTargets",
@@ -193,6 +308,7 @@ data "aws_iam_policy_document" "cp_policy_document" {
                 "autoscaling:DescribeLaunchConfigurations",
                 "autoscaling:DescribeAutoScalingInstances",
                 "autoscaling:DescribeAutoScalingGroups"
+>>>>>>> main
     ]
     resources = ["*"]
   }
