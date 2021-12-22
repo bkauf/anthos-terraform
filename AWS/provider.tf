@@ -9,7 +9,11 @@ terraform {
 
 provider "aws" {
   profile = "default"
+<<<<<<< HEAD
   region  = var.aws_region
+=======
+  region  = "us-east-1"
+>>>>>>> main
 }
 provider "google" {
   project = var.gcp_project

@@ -1,5 +1,18 @@
 # GKE on Azure Terraform
 
+## Notes:
+![Anthos Multi-Cloud](Anthos-Multi-Azure.png)
+
+This terraform script will install all relevant IaaS in Azure(VNet, App Registration, Resource Groups, KMS) and then deploy Anthos GKE with 3 control plane nodes(1 in each AZ) of type [Standard_B2s](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-b-series-burstable) and a single node pool of type Standard_B2s with 1 node in an autoscaling group to max 3 nodes to the Azure East US region. You can adjust the region and AZs in the variables.tf file in the environments/prod directory. For a list of Azure regions and associated K8s version supported per GCP region please use this command:
+
+```bash
+gcloud alpha container azure get-server-config --location [gcp-region]
+```
+Supported instance types in Azure can be found [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/azure/reference/supported-vms).  After the cluster has been installed it will show up in your GKE page of the GCP console in your relevant GCP project. For best results please run this script in [GCP Cloud Shell](https://cloud.google.com/shell/docs/using-cloud-shelll).
+
+
+ This script is meant to be a quick start to working with Anthos on Azure. For more information on Anthos Multi-Cloud please [click here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/).
+
 ## Prerequisites
 
 1. Download the `az` CLI utility. Ensure it is in your `$PATH`.
@@ -37,7 +50,6 @@
 
    ```bash
    echo PROJECT_ID=Your GCP Project ID
-   echo GCLOUD_USER=You Google user email
 
    gcloud config set project "${PROJECT_ID}"
    gcloud auth application-default login --no-launch-browser
@@ -47,52 +59,25 @@
 
    ```bash
    gcloud --project="${PROJECT_ID}" services enable \
-   container.googleapis.com \
-   compute.googleapis.com \
-   gkehub.googleapis.com \
+   gkemulticloud.googleapis.com \
    gkeconnect.googleapis.com \
+   connectgateway.googleapis.com \
+   cloudresourcemanager.googleapis.com \
    anthos.googleapis.com \
-   cloudresourcemanager.googleapis.com
+   logging.googleapis.com \
+   monitoring.googleapis.com
    ```
 
    > You can also enable services in Terraform. Take care when destroying your terraform plan as it will also disable those services. For demo purposes, enable the main services here and only the services required for Anthos on Azure (i.e. the gkemulticloud.googleapis.com) through terraform.
 
-1. Clone this repo.
+1. Clone this repo and go into the environments/prod folder.
 
    ```bash
    git clone https://github.com/bkauf/anthos-terraform.git
    cd anthos-terraform/Azure/environments/prod
    ```
 
-1. Define terraform variables.
-
-   ```bash
-   AZURE_CLUSTER=${GCLOUD_USER%@*}-anthos-cluster-1
-   AZURE_NODEPOOL=${GCLOUD_USER%@*}-anthos-cluster-1-nodepool-1
-   AZURE_REGION="East US"
-   GCP_USER=${GCLOUD_USER}
-   GCP_PROJECT_ID=${PROJECT_ID}
-   GCP_REGION="us-east4"
-   GCP_AZURE_LOCATION="eastus"
-   APP_NAME=${GCLOUD_USER%@*}-app
-   CLUSTER_RESOURCE_GROUP_NAME=${GCLOUD_USER%@*}-cluster-rg
-   VNET_RESOURCE_GROUP_NAME=${GCLOUD_USER%@*}-vnet-rg
-   VNET_NAME=${GCLOUD_USER%@*}-vnet
-   AZURE_CLIENT=${GCLOUD_USER%@*}-az-client
-   AZURE_ROLE_ADMIN_NAME=${GCLOUD_USER%@*}-role-admin
-   AZURE_ROLE_VNET_ADMIN_NAME=${GCLOUD_USER%@*}-role-vnet-admin
-
-   sed -e "s/AZURE_REGION/$AZURE_REGION/" -e "s/GCP_USER/$GCP_USER/" \
-       -e "s/GCP_PROJECT_ID/$GCP_PROJECT_ID/" -e "s/GCP_REGION/$GCP_REGION/" \
-       -e "s/APP_NAME/$APP_NAME/" -e "s/CLUSTER_RESOURCE_GROUP_NAME/$CLUSTER_RESOURCE_GROUP_NAME/" \
-       -e "s/VNET_RESOURCE_GROUP_NAME/$VNET_RESOURCE_GROUP_NAME/" -e "s/VNET_NAME/$VNET_NAME/" \
-       -e "s/AZURE_ROLE_ADMIN_NAME/$AZURE_ROLE_ADMIN_NAME/" -e "s/AZURE_ROLE_VNET_ADMIN_NAME/$AZURE_ROLE_VNET_ADMIN_NAME/" \
-       -e "s/AZURE_CLIENT/$AZURE_CLIENT/" -e "s/AZURE_CLUSTER/$AZURE_CLUSTER/" \
-       -e "s/GCP_AZURE_LOCATION/$GCP_AZURE_LOCATION/" -e "s/AZURE_NODEPOOL/$AZURE_NODEPOOL/" \
-          variables.tf.tmpl > variables.tf
-   ```
-
-## Deploy Anthos on Azure cluster
+## Deploy Anthos Clusters(GKE) on Azure cluster
 
 1. Initialize and create terraform plan.
 
@@ -103,11 +88,30 @@
 
 1. Apply terraform.
 
+   You will need to supply your cluster name and also your project ID
+
    ```bash
    terraform apply -input=false terraform.tfplan
    ```
+1. Authorize Cloud Logging / Cloud Monitoring
 
-## Delete Anthos on Azure cluster
+   Enable system container logging and container metrics. You can only do this after the first Anthos cluster has been created. 
+   ([read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth))
+
+   ``` bash
+   gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+   --member="serviceAccount:${PROJECT_ID}.svc.id.goog[gke-system/gke-telemetry-agent]" \
+   --role=roles/gkemulticloud.telemetryWriter
+   ```
+
+ 1. Login to the Cluster
+
+   ```bash
+   gcloud container hub memberships get-credentials $AZURE_CLUSTER
+   kubectl get nodes
+   ```
+
+## Delete Anthos on Azure Cluster
 
 1. Run the following command to delete Anthos on Azure cluster.
 
@@ -115,35 +119,4 @@
    terraform destroy --auto-approve
    ```
 
-### Extra
 
-This is not needed in the GA product
-
-#### Setup a Bastion Host
-
-```bash
-   az vm create \
-     --resource-group "${AZURE_VNET_RESOURCE_GROUP}" \
-     --location "${AZURE_REGION}" \
-     --vnet-name "${AZURE_VNET}" \
-     --ssh-key-values ${WORKDIR}/anthos-ssh-key.pub \
-     --name anthos-bastion-host \
-     --image UbuntuLTS \
-     --size Standard_B1ls \
-     --public-ip-sku Standard \
-     --nsg ${anthos-bastion-host} \
-     --nsg-rule SSH \
-     --subnet ${SUBNET_ID} \
-     --custom-data customdata.sh
-```
-
-#### Get IP Address
-
-```bash
-export AZURE_BASTION_IP_ADDRESS=$(az network public-ip show \
-  --resource-group ${AZURE_VNET_RESOURCE_GROUP} \
-  --name ${AZURE_BASTION_VM}PublicIP --query "ipAddress" --output tsv)
-echo -e "export AZURE_BASTION_IP_ADDRESS=${AZURE_BASTION_IP_ADDRESS}" | tee -a ${WORKDIR}/vars.sh && source ${WORKDIR}/vars.sh
-```
-
-#

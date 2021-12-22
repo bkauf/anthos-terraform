@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "vnet" {
 }
 
 #Create VNet
-
+#https://cloud.google.com/anthos/clusters/docs/multi-cloud/azure/how-to/create-azure-vnet
 resource "azurerm_virtual_network" "vnet" {
   name                = var.name
   location            = var.region
