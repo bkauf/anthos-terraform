@@ -38,5 +38,6 @@ variable "subnet_availability_zones" {
 
 variable "public_subnet_cidr_block" {
   description = "CIDR blcok to use for public subnet"
-  type        = string
+  type        = list(string)
+  default     = []
 }
