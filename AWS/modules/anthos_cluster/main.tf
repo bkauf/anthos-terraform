@@ -9,7 +9,7 @@ resource "google_container_aws_cluster" "this" {
   aws_region  = var.aws_region
   description = "Test AWS cluster created with Terraform"
   location    = var.location
-  name        = "${var.anthos_prefix}-cluster"
+  name        = "${var.anthos_prefix}"
   authorization {
     admin_users {
       username = var.admin_user
@@ -20,7 +20,7 @@ resource "google_container_aws_cluster" "this" {
     instance_type        = "t3.medium"
     subnet_ids           = var.subnet_ids
     tags = {
-      "client" : "Terraform"
+      "Name" : "${var.anthos_prefix}-cp"
     }
     version = var.cluster_version
     aws_services_authentication {
@@ -69,8 +69,8 @@ resource "google_container_aws_node_pool" "this" {
     max_pods_per_node = 110
   }
   autoscaling {
-    min_node_count = 5
-    max_node_count = 10
+    min_node_count = 2
+    max_node_count = 5
   }
   config {
     config_encryption {
@@ -85,7 +85,7 @@ resource "google_container_aws_node_pool" "this" {
       kms_key_arn = var.volume_kms_key_arn
     }
     tags = {
-      "client" : "Terraform"
+      "Name" : "${var.anthos_prefix}-nodepool"
     }
   }
   timeouts {
