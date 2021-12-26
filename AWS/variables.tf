@@ -1,15 +1,19 @@
 
-
-
 variable "gcp_project_number" {
   description = "Enter the project number of the gcp project where the cluster will be registered."
   type        = string
-  default     = "enter project number"
+  default     = "Enter Project Number"
 }
 variable "gcp_project_id" {
   description = "Enter the project id of the gcp project where the cluster will be registered."
   type        = string
-  default     = "enter project ID"
+  default     = "Enter Project ID"
+}
+
+variable "admin_user" {
+  description = "User to get default Admin RBAC"
+  type        = string
+  default     = "Enter Google Account(example@example.com)"
 }
 
 variable "aws_region" {
@@ -18,21 +22,7 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-variable "admin_user" {
-  description = "User to get default Admin RBAC"
-  type        = string
-  default     = "gcp user email"
-}
-
-
-variable "cluster_version" {
-  description = "GKE version to install"
-  type        = string
-  default     = "1.21.5-gke.2800"
-
-}
-
-
+#You will need 3 AZs, one for each control plane node
 variable "subnet_availability_zones" {
   description = "Availability zones to create subnets in, np will be created in the first"
   type        = list(string)
@@ -121,6 +111,13 @@ variable "node_pool_instance_type" {
   description = "AWS Node instance type"
   type        = string
   default     = "t3.medium"
+}
+
+variable "cluster_version" {
+  description = "GKE version to install"
+  type        = string
+  default     = "1.21.5-gke.2800"
+
 }
 
 
