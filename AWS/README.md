@@ -68,9 +68,9 @@ gcloud component update
 
 1. Edit the following default values in the variables.tf file
 
-- gcp_project_number
-- gcp_project_id
-- admin_user
+   - gcp_project_number
+   - gcp_project_id
+   - admin_user
 
 1. Initialize and create terraform plan.
 
