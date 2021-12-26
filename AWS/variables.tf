@@ -10,10 +10,12 @@ variable "gcp_project_id" {
   default     = "Enter Project ID"
 }
 
+# This step sets up the default RBAC policy in your cluster for a Google 
+# user so you can login after cluster creation
 variable "admin_user" {
   description = "User to get default Admin RBAC"
   type        = string
-  default     = "Enter Google Account(example@example.com)"
+  default     = "Enter Google Account Cluster Admin user(example@exmaple.com)"
 }
 
 variable "aws_region" {
