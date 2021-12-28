@@ -1,9 +1,9 @@
-# GKE on AWS Terraform
+# Anthos on AWS Terraform
 
 ## Notes:
 ![Anthos Multi-Cloud](Anthos-Multi-AWS.png)
 
-This terraform script will install all relevant [IaaS prerequisites](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/prerequisites) in AWS(VPC, , subnets, internet gateay, NAT gateway, IAM roles, route tables, and KMS) and then deploy Anthos GKE with 3 control plane nodes(1 in each AZ) of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/) and a single node pool of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/)  with 2 nodes in an autoscaling group to max 5 nodes to the AWS us-east-1 region. The node pool will be deployed to the us-east-1a zone. The network topology setup is documented [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc#create-sample-vpc).  You can adjust the region and AZs in the variables.tf file. For a list of AWS regions and associated K8s version supported per GCP region please use this command:
+This terraform script will install all relevant [IaaS prerequisites](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/prerequisites) in AWS (VPC, subnets, internet gateay, NAT gateway, IAM roles, route tables, and KMS) and then deploy an Anthos cluster on AWS with 3 control plane nodes (1 in each AZ) of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/) and a single node pool of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/)  with 2 nodes in an autoscaling group to max 5 nodes to the AWS `us-east-1` region. The node pool will be deployed to the `us-east-1a zone`. The network topology setup is documented [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc#create-sample-vpc).  You can adjust the region and AZs in a `terraform.tfvars` file. For a list of AWS regions and associated K8s version supported per GCP region, please use this command:
 
 ```bash
 gcloud container aws get-server-config --location [gcp-region]
@@ -14,13 +14,12 @@ gcloud container aws get-server-config --location [gcp-region]
 
 ## Prerequisites
 
-1. Ensure you have gCloud SDK 365.0.1 or greater [installed](https://cloud.google.com/sdk/docs/install)
-```
-gcloud component update
-```
+1. Ensure you have Google Cloud SDK 365.0.1 or greater [installed](https://cloud.google.com/sdk/docs/install).
+   ```bash
+   gcloud component update
+   ```
 
 1. Configure GCP Terraform authentication.
-
    ```bash
    PROJECT_ID=Your GCP Project ID
 
@@ -66,24 +65,32 @@ gcloud component update
 
 ## Deploy Anthos Clusters(GKE) on AWS
 
-1. Edit the following default values in the variables.tf file
+1. Set the following variables in a `terraform.tfvars` file. Alternatively, you can set them when running `terraform apply`. 
 
-   - gcp_project_number
-   - gcp_project_id
-   - admin_user
+   ```
+   gcp_project_id = "your-gcp-project-id"
+   admin_user     = "user@example.com"
+   ```
+
+   The example creates a cluster in AWS region `us-east-1` and managed in GCP location `us-east4`. To change the defaults, set the following variables in the `terraform.tfvars` file.
+
+   ```
+   aws_region   = "us-west-2"
+   gcp_location = "us-west1"
+   subnet_availability_zones = [
+   "us-west-2a",
+   "us-west-2b",
+   "us-west-2c",
+   ]
+   ```
 
 1. Initialize and create terraform plan.
 
    ```bash
    terraform init
-
-   ```
-
-1. Apply terraform.
-
-   ```bash
    terraform apply 
    ```
+
     Once started the installation process will take about 10 minutes. **After the script completes you will see a var.sh file in the root directory that has varialbles for the anthos install** if you need to create more node pools manually in the future.
 
 1. Authorize Cloud Logging / Cloud Monitoring
@@ -101,17 +108,14 @@ gcloud component update
  1. Login to the Cluster
 
    ``` bash
-   gcloud container hub memberships get-credentials [cluster name]
+   gcloud container aws clusters get-credentials [cluster name]
    kubectl get nodes
    ```
 
 
-
-
-
 ## Delete Anthos on AWS Cluster
 
-1. Run the following command to delete Anthos on AWS cluster.
+1. Run the following command to delete Anthos on AWS cluster and its prerequisites.
 
    ```bash
    terraform destroy 

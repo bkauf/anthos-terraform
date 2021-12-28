@@ -10,7 +10,7 @@ terraform {
 locals {
   vpc_name      = "${var.anthos_prefix}-anthos-vpc"
   az_count      = length(var.subnet_availability_zones)
-  psubnet_count = length(var.public_subnet_cidr_block)
+  psubnet_count = length(var.public_subnet_cidr_blocks)
 }
 
 # Create a VPC
@@ -41,7 +41,7 @@ resource "aws_subnet" "private_cp" {
   cidr_block        = var.cp_private_subnet_cidr_blocks[count.index]
   availability_zone = var.subnet_availability_zones[count.index]
   tags = {
-    Name                             = "${local.vpc_name}-private-cp-${var.subnet_availability_zones[count.index]}",
+    Name                              = "${local.vpc_name}-private-cp-${var.subnet_availability_zones[count.index]}",
     "kubernetes.io/role/internal-elb" = "1"
   }
 }
@@ -53,7 +53,7 @@ resource "aws_subnet" "public" {
 
   count                   = local.psubnet_count
   vpc_id                  = aws_vpc.this.id
-  cidr_block              = var.public_subnet_cidr_block[count.index]
+  cidr_block              = var.public_subnet_cidr_blocks[count.index]
   availability_zone       = var.subnet_availability_zones[count.index]
   map_public_ip_on_launch = true
   tags = {

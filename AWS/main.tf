@@ -2,13 +2,13 @@
 locals {
   name_prefix = "aws-cluster-${random_string.suffix.result}"
 }
+
 resource "random_string" "suffix" {
   length    = 2
   special   = false
   lower     = true
   min_lower = 2
 }
-
 
 module "kms" {
   source        = "./modules/kms"
@@ -28,7 +28,7 @@ module "vpc" {
   vpc_cidr_block                = var.vpc_cidr_block
   anthos_prefix                 = local.name_prefix
   subnet_availability_zones     = var.subnet_availability_zones
-  public_subnet_cidr_block      = var.public_subnet_cidr_block
+  public_subnet_cidr_blocks      = var.public_subnet_cidr_blocks
   cp_private_subnet_cidr_blocks = var.cp_private_subnet_cidr_blocks
   np_private_subnet_cidr_blocks = var.np_private_subnet_cidr_blocks
 }
@@ -36,7 +36,7 @@ module "vpc" {
 module "gcp_data" {
   source       = "./modules/gcp_data"
   gcp_location = var.gcp_location
-  gcp_project  = var.gcp_project_id
+  gcp_project  = var.gcp_project
 }
 
 module "anthos_cluster" {
@@ -45,6 +45,8 @@ module "anthos_cluster" {
   location                        = var.gcp_location
   aws_region                      = var.aws_region
   cluster_version                 = coalesce(var.cluster_version, module.gcp_data.latest_version)
+  pod_address_cidr_blocks         = var.pod_address_cidr_blocks
+  service_address_cidr_blocks     = var.service_address_cidr_blocks
   database_encryption_kms_key_arn = module.kms.database_encryption_kms_key_arn
   iam_instance_profile            = module.iam.cp_instance_profile_id
   admin_user                      = var.admin_user
@@ -55,12 +57,6 @@ module "anthos_cluster" {
   fleet_project                   = "projects/${module.gcp_data.project_number}"
   depends_on                      = [module.kms, module.iam, module.vpc]
 }
-module "create_vars" {
-  source                = "terraform-google-modules/gcloud/google"
-  platform              = "linux"
-  create_cmd_entrypoint = "./modules/scripts/create_vars.sh"
-  create_cmd_body       = "\"${local.name_prefix}\" \"${var.gcp_location}\" \"${var.aws_region}\" \"${var.cluster_version}\" \"${module.kms.database_encryption_kms_key_arn}\" \"${module.iam.cp_instance_profile_id}\" \"${module.iam.api_role_arn}\" \"${module.vpc.aws_cp_subnet_id_1},${module.vpc.aws_cp_subnet_id_2},${module.vpc.aws_cp_subnet_id_3}\" \"${module.vpc.aws_vpc_id}\" \"${var.gcp_project_id}\" \"${var.pod_address_cidr_blocks}\" \"${var.service_address_cidr_blocks}\" \"${module.iam.np_instance_profile_id}\" \"${var.node_pool_instance_type}\""
-  module_depends_on     = [module.anthos_cluster]
-}
+
 
 
