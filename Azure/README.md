@@ -74,7 +74,7 @@ Supported instance types in Azure can be found [here](https://cloud.google.com/a
 
    ```bash
    git clone https://github.com/bkauf/anthos-terraform.git
-   cd anthos-terraform/Azure/environments/prod
+   cd anthos-terraform/Azure/
    ```
 
 ## Deploy Anthos Clusters(GKE) on Azure cluster
