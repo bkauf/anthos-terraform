@@ -18,6 +18,13 @@ variable "admin_user" {
   default     = "Enter Google Account Cluster Admin user(example@exmaple.com)"
 }
 
+variable "cluster_version" {
+  description = "GKE version to install"
+  type        = string
+  default     = "1.21.5-gke.2800"
+
+}
+
 variable "aws_region" {
   description = "AWS region to deploy to"
   type        = string
@@ -115,12 +122,6 @@ variable "node_pool_instance_type" {
   default     = "t3.medium"
 }
 
-variable "cluster_version" {
-  description = "GKE version to install"
-  type        = string
-  default     = "1.21.5-gke.2800"
-
-}
 
 
 
