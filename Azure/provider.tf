@@ -23,8 +23,8 @@ provider "azuread" {
   #  version = "=1.6.0"
 }
 provider "google" {
-  project = var.gcp_project
+  project = var.gcp_project_id
 }
-provider "google-beta" {
-  project = var.gcp_project
-}
+#provider "google-beta" {
+#  project = var.gcp_project
+#}

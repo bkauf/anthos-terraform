@@ -1,29 +1,12 @@
-output "aad_app_id" {
-  description = "Azure application ID"
-  value       = module.aad_app.aad_app_id
+output "cluster_name" {
+  description = "The automatically generated name of your Azure GKE cluster"
+  value       = local.name_prefix
 }
-
-output "cluster_resource_group_id" {
-  description = "The id of the cluster resource group"
-  value       = module.cluster_rg.resource_group_id
+output "vars_file" {
+  description = "The variables needed to create more node pools are in the vars.sh file.\n If you create additional node pools they must be manually deleted before you run terraform destroy"
+  value       = "vars.sh"
 }
-
-output "vnet_id" {
-  description = "The ID of the vnet"
-  value       = module.cluster_vnet.vnet_id
-}
-
-output "vnet_location" {
-  description = "The location/region of the vnet"
-  value       = module.cluster_vnet.location
-}
-
-output "subnet_id" {
-  description = "The ID of the subnet"
-  value       = module.cluster_vnet.subnet_id
-}
-
-output "anthos_ssh_public_key" {
-  description = "Anthos SSH public key"
-  value       = tls_private_key.anthos_ssh_key.public_key_openssh
+output "message" {
+  description = "Connect Instructions"
+  value       = "To connect to your cluster issue the command:\n gcloud container hub memberships get-credentials ${local.name_prefix}"
 }

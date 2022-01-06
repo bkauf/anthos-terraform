@@ -4,7 +4,7 @@ data "azurerm_subscription" "current" {
 
 resource "azurerm_resource_group" "vnet" {
   location = var.region
-  name     = "${var.name}-byo"
+  name     = "${var.name}"
 }
 
 #Create VNet
@@ -26,7 +26,7 @@ resource "azurerm_subnet" "default" {
 
 #Create Public IP
 resource "azurerm_public_ip" "nat_gateway_pip" {
-  name                = "nat-gateway-pip"
+  name                = "${var.name}-nat-ip"
   location            = var.region
   resource_group_name = azurerm_resource_group.vnet.name
   allocation_method   = "Static"

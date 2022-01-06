@@ -21,9 +21,9 @@ resource "time_sleep" "wait_for_aad_app_azure_client_cert" {
 resource "google_container_azure_cluster" "this" {
   client            = "projects/${var.project_number}/locations/${var.location}/azureClients/${module.azure_client.client_name}"
   azure_region      = var.azure_region
-  description       = "Test Azure cluster created with Terraform"
+  description       = "Test Azure GKE cluster created with Terraform"
   location          = var.location
-  name              = "${var.anthos_prefix}-cluster"
+  name              = "${var.anthos_prefix}"
   resource_group_id = var.resource_group_id
   authorization {
     admin_users {
@@ -67,10 +67,10 @@ resource "google_container_azure_node_pool" "azure_node_pool" {
   cluster   = google_container_azure_cluster.this.id
   version   = var.cluster_version
   location  = var.location
-  name      = "${var.anthos_prefix}-nodepool"
+  name      = "${var.anthos_prefix}-np-1"
   subnet_id = var.subnet_id
   autoscaling {
-    min_node_count = 1
+    min_node_count = 2
     max_node_count = 5
   }
   config {

@@ -1,7 +1,9 @@
 
-variable "gcp_project" {
-  description = "ID of the GCP project where the cluster will be registered."
+
+variable "gcp_project_id" {
+  description = "Enter the project id of the gcp project where the cluster will be registered."
   type        = string
+  default     = "Enter Project ID"
 }
 
 # This variable is used to set up the default RBAC policy in your cluster for a Google 
@@ -9,6 +11,16 @@ variable "gcp_project" {
 variable "admin_user" {
   description = "User to get default Admin RBAC."
   type        = string
+  default     = "Enter Google Account Cluster Admin user(example@exmaple.com)"
+ 
+}
+
+variable "cluster_version" {
+  description = "GKE version to install"
+  type        = string
+  default     = "1.21.5-gke.2800"
+
+
 }
 
 variable "aws_region" {
@@ -86,10 +98,4 @@ variable "node_pool_instance_type" {
   description = "AWS Node instance type."
   type        = string
   default     = "t3.medium"
-}
-
-variable "cluster_version" {
-  description = "GKE version to install."
-  type        = string
-  default     = ""
 }
