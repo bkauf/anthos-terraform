@@ -3,6 +3,14 @@ variable "gcp_project_id" {
   type        = string
   default = "Enter GCP Project ID"
 }
+
+variable "admin_user" {
+  description = "GCP User to give admin RBAC to in the cluster"
+  type        = string
+  default     = "Enter Google Account email"
+}
+
+
 variable "azure_region" {
   description = "Azure region to deploy to"
   type        = string
@@ -15,11 +23,6 @@ variable "gcp_location" {
   default     = "us-east4"
 }
 
-variable "admin_user" {
-  description = "GCP User to give admin RBAC to in the cluster"
-  type        = string
-  default     = "Enter Google Account email"
-}
 
 variable "cluster_version" {
   description = "GKE version to install"

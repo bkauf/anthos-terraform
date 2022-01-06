@@ -78,6 +78,10 @@ Supported instance types in Azure can be found [here](https://cloud.google.com/a
    ```
 
 ## Deploy Anthos Clusters(GKE) on Azure cluster
+1. Edit the following default values in the variables.tf file
+
+   - gcp_project_id
+   - admin_user
 
 1. Initialize and create terraform plan.
 
@@ -93,6 +97,8 @@ Supported instance types in Azure can be found [here](https://cloud.google.com/a
    ```bash
    terraform apply -input=false terraform.tfplan
    ```
+    Once started the installation process will take about 12 minutes. **After the script completes you will see a var.sh file in the root directory that has varialbles for the anthos install** if you need to create more node pools manually in the future. Note manually created node pools will need to be deleted manually before you run terraform destroy
+
 1. Authorize Cloud Logging / Cloud Monitoring
 
    Enable system container logging and container metrics. You can only do this after the first Anthos cluster has been created. 

@@ -84,7 +84,7 @@ gcloud component update
    ```bash
    terraform apply 
    ```
-    Once started the installation process will take about 10 minutes. **After the script completes you will see a var.sh file in the root directory that has varialbles for the anthos install** if you need to create more node pools manually in the future.
+     Once started the installation process will take about 12 minutes. **After the script completes you will see a var.sh file in the root directory that has varialbles for the anthos install** if you need to create more node pools manually in the future. Note manually created node pools will need to be deleted manually before you run terraform destroy
 
 1. Authorize Cloud Logging / Cloud Monitoring
 

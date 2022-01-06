@@ -73,6 +73,16 @@ module "anthos_cluster" {
   ]
 }
 
+module "create_vars" {
+  source                = "terraform-google-modules/gcloud/google"
+  platform              = "linux"
+  create_cmd_entrypoint = "./modules/scripts/create_vars.sh"
+  create_cmd_body       = "\"${local.name_prefix}\" \"${var.gcp_location}\" \"${var.azure_region}\" \"${var.cluster_version}\" \"${tls_private_key.anthos_ssh_key.public_key_openssh}\" \"${module.cluster_vnet.subnet_id}\""
+  module_depends_on     = [module.anthos_cluster]
+}
+
+
+
 #module "hub_feature" {
 #  source     = "./modules/hub_feature"
 #  membership = module.anthos_cluster.fleet_membership

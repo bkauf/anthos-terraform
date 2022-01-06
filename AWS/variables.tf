@@ -3,11 +3,13 @@ variable "gcp_project_number" {
   description = "Enter the project number of the gcp project where the cluster will be registered."
   type        = string
   default     = "Enter Project Number"
+
 }
 variable "gcp_project_id" {
   description = "Enter the project id of the gcp project where the cluster will be registered."
   type        = string
   default     = "Enter Project ID"
+  
 }
 
 # This step sets up the default RBAC policy in your cluster for a Google 
@@ -16,6 +18,7 @@ variable "admin_user" {
   description = "User to get default Admin RBAC"
   type        = string
   default     = "Enter Google Account Cluster Admin user(example@exmaple.com)"
+ 
 }
 
 variable "cluster_version" {
