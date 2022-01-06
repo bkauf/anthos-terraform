@@ -113,7 +113,7 @@ Supported instance types in Azure can be found [here](https://cloud.google.com/a
  1. Login to the Cluster
 
    ```bash
-   gcloud container hub memberships get-credentials $AZURE_CLUSTER
+   gcloud container hub memberships get-credentials [cluster name]
    kubectl get nodes
    ```
 
