@@ -1,4 +1,0 @@
-#Azure/environments/**/variables.tf
-Azure/environments/**/.terraform*
-Azure/environments/**/terraform.tf*
-
