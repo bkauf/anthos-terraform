@@ -1,3 +1,19 @@
+/**
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 terraform {
   required_version = ">= 0.12.23"
   required_providers {
@@ -27,7 +43,7 @@ resource "aws_vpc" "this" {
 
 # Create sample VPC
 # https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc
-# Create 4 private subnets and 1 public subnet. 
+# Create 4 private subnets and 1 public subnet.
 # Three private subnets are used by the Anthos on AWS control planes (running in three zones)
 # and one or more private subnets is used by node pools.
 # The public subnets is used by the load balancers for associated services.
@@ -41,7 +57,7 @@ resource "aws_subnet" "private_cp" {
   cidr_block        = var.cp_private_subnet_cidr_blocks[count.index]
   availability_zone = var.subnet_availability_zones[count.index]
   tags = {
-    Name                             = "${local.vpc_name}-private-cp-${var.subnet_availability_zones[count.index]}",
+    Name                              = "${local.vpc_name}-private-cp-${var.subnet_availability_zones[count.index]}",
     "kubernetes.io/role/internal-elb" = "1"
   }
 }
@@ -64,7 +80,7 @@ resource "aws_subnet" "public" {
 
 
 # Step 4
-# Create an internet gateway 
+# Create an internet gateway
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
   tags = {
@@ -153,28 +169,3 @@ resource "aws_route" "private_nat_gateway" {
     create = "5m"
   }
 }
-
-# Create node pool subnet
-
-# resource "aws_subnet" "private_np" {
-#  count             = local.az_count
-#  vpc_id            = aws_vpc.this.id
-#  cidr_block        = var.np_private_subnet_cidr_blocks[0]
-#  availability_zone = var.subnet_availability_zones[count.index]
-#  tags = {
-#    Name                              = "${local.vpc_name}-private-np-${var.subnet_availability_zones[count.index]}",
-#    "kubernetes.io/role/internal-elb" = "1"
-#  }
-#}
-
-#resource "aws_route_table_association" "np_private" {
-#  subnet_id      = aws_subnet.private_np.id
-#  route_table_id = aws_route_table.private.id
-#}
-
-
-
-
-
-
-

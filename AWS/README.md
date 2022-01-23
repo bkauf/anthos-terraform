@@ -1,16 +1,23 @@
-# GKE on AWS Terraform
+# Install GKE on AWS using Terraform
 
-## Notes:
+This script is meant to be a quick start to working with Anthos on AWS. For more information on Anthos Multi-Cloud please [click here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/). This terraform script will install all relevant [IaaS prerequisites](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/prerequisites) in AWS _(VPC, Subnets, Internet gateway, NAT gateway, IAM Roles, Route tables, and KMS)_.
+
 ![Anthos Multi-Cloud](Anthos-Multi-AWS.png)
 
-This terraform script will install all relevant [IaaS prerequisites](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/prerequisites) in AWS(VPC, , subnets, internet gateay, NAT gateway, IAM roles, route tables, and KMS) and then deploy Anthos GKE with 3 control plane nodes(1 in each AZ) of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/) and a single node pool of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/)  with 2 nodes in an autoscaling group to max 5 nodes to the AWS us-east-1 region. The node pool will be deployed to the us-east-1a zone. The network topology setup is documented [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc#create-sample-vpc).  You can adjust the region and AZs in the variables.tf file. For a list of AWS regions and associated K8s version supported per GCP region please use this command:
+ **The Terraform script deploys Anthos GKE with:**
+- 3 control plane nodes _(1 in each AZ)_ of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/).
+- A single node pool of type [t3.medium](https://aws.amazon.com/ec2/instance-types/t3/) with 2 nodes in an autoscaling group to max 5 nodes to the AWS `us-east-1` region.
 
+**Other information:**
+- The node pool will be deployed to the `us-east-1a` zone.
+- Supported instance types in AWS can be found [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/reference/supported-instance-types).
+- The network topology setup is documented [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-aws-vpc#create-sample-vpc).
+- You can adjust the region and AZs in the [variables.tf](/anthos-multi-cloud/AWS/variables.tf) file.
+- For a list of AWS regions and associated K8s version supported per GCP region please use the following command:
 ```bash
 gcloud container aws get-server-config --location [gcp-region]
 ```
- Supported instance types in AWS can be found [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/reference/supported-instance-types).  After the cluster has been installed it will show up in your GKE page of the GCP console in your relevant GCP project. 
-
- This script is meant to be a quick start to working with Anthos on AWS. For more information on Anthos Multi-Cloud please [click here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/).
+After the cluster has been installed it will show up in the [Kubernetes Engine page](https://console.cloud.google.com/kubernetes/list/overview) of the GCP console in your relevant GCP project.
 
 ## Prerequisites
 
@@ -59,8 +66,8 @@ gcloud components update
 1. Clone this repo and go into the AWS folder.
 
    ```bash
-   git clone https://github.com/bkauf/anthos-terraform.git
-   cd anthos-terraform/AWS
+   git clone https://github.com/GoogleCloudPlatform/anthos-samples.git
+   cd anthos-samples/anthos-multi-cloud/AWS
    ```
 
 
@@ -83,13 +90,13 @@ gcloud components update
 1. Apply terraform.
 
    ```bash
-   terraform apply 
+   terraform apply
    ```
      Once started the installation process will take about 12 minutes. **After the script completes you will see a var.sh file in the root directory that has varialbles for the anthos install** if you need to create more node pools manually in the future. Note manually created node pools will need to be deleted manually before you run terraform destroy
 
 1. Authorize Cloud Logging / Cloud Monitoring
 
-   Enable system container logging and container metrics. You can only do this after the first Anthos cluster has been created. 
+   Enable system container logging and container metrics. You can only do this after the first Anthos cluster has been created.
    ([read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth))
 
    ``` bash
@@ -112,5 +119,5 @@ If you would like to test out the Anthos Configuration and Policy Management fea
 1. Run the following command to delete Anthos on AWS cluster.
 
    ```bash
-   terraform destroy 
+   terraform destroy
    ```

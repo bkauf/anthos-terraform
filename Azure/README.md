@@ -1,17 +1,21 @@
-# GKE on Azure Terraform
+# Install GKE on Azure using Terraform
 
-## Notes:
+This script is meant to be a quick start to working with Anthos on Azure. For more information on Anthos Multi-Cloud please [click here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/). This terraform script will install all relevant IaaS in Azure _(VNet, App Registration, Resource Groups, KMS)_.
+
 ![Anthos Multi-Cloud](Anthos-Multi-Azure.png)
 
-This terraform script will install all relevant IaaS in Azure(VNet, App Registration, Resource Groups, KMS) and then deploy Anthos GKE with 3 control plane nodes(1 in each AZ) of type [Standard_B2s](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-b-series-burstable) and a single node pool of type Standard_B2s with 1 node in an autoscaling group to max 3 nodes to the Azure East US region. You can adjust the region and AZs in the variables.tf file in the environments/prod directory. For a list of Azure regions and associated K8s version supported per GCP region please use this command:
+ **The Terraform script deploys Anthos GKE with:**
+- 3 control plane nodes _(1 in each AZ)_ of type [Standard_B2s](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-b-series-burstable)
+- A single node pool of type Standard_B2s with 1 node in an autoscaling group to max 3 nodes to the `Azure East US` region.
 
+**Other information:**
+- Supported instance types in Azure can be found [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/azure/reference/supported-vms).
+- You can adjust the region and AZs in the [variables.tf](/anthos-multi-cloud/Azure/variables.tf) file.
+- For a list of Azure regions and associated K8s version supported per GCP region please use the following command:
 ```bash
 gcloud alpha container azure get-server-config --location [gcp-region]
 ```
-Supported instance types in Azure can be found [here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/azure/reference/supported-vms).  After the cluster has been installed it will show up in your GKE page of the GCP console in your relevant GCP project. For best results please run this script in [GCP Cloud Shell](https://cloud.google.com/shell/docs/using-cloud-shelll).
-
-
- This script is meant to be a quick start to working with Anthos on Azure. For more information on Anthos Multi-Cloud please [click here](https://cloud.google.com/anthos/clusters/docs/multi-cloud/).
+After the cluster has been installed it will show up in the [Kubernetes Engine page](https://console.cloud.google.com/kubernetes/list/overview) of the GCP console in your relevant GCP project.
 
 ## Prerequisites
 
@@ -76,8 +80,8 @@ Supported instance types in Azure can be found [here](https://cloud.google.com/a
 1. Clone this repo and go into the Azure folder.
 
    ```bash
-   git clone https://github.com/bkauf/anthos-terraform.git
-   cd anthos-terraform/Azure/
+   git clone https://github.com/GoogleCloudPlatform/anthos-samples.git
+   cd anthos-samples/anthos-multi-cloud/Azure
    ```
 
 ## Deploy Anthos Clusters(GKE) on Azure cluster
@@ -104,7 +108,7 @@ Supported instance types in Azure can be found [here](https://cloud.google.com/a
 
 1. Authorize Cloud Logging / Cloud Monitoring
 
-   Enable system container logging and container metrics. You can only do this after the first Anthos cluster has been created. 
+   Enable system container logging and container metrics. You can only do this after the first Anthos cluster has been created.
    ([read more](https://cloud.google.com/anthos/clusters/docs/multi-cloud/aws/how-to/create-cluster#telemetry-agent-auth))
 
    ``` bash

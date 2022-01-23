@@ -1,3 +1,19 @@
+/**
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 resource "tls_private_key" "anthos_ssh_key" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -81,13 +97,3 @@ module "create_vars" {
   create_cmd_body       = "\"${local.name_prefix}\" \"${var.gcp_location}\" \"${var.azure_region}\" \"${var.cluster_version}\" \"${tls_private_key.anthos_ssh_key.public_key_openssh}\" \"${module.cluster_vnet.subnet_id}\""
   module_depends_on     = [module.anthos_cluster]
 }
-
-
-
-#module "hub_feature" {
-#  source     = "./modules/hub_feature"
-#  membership = module.anthos_cluster.fleet_membership
-#  depends_on = [module.anthos_cluster]
-#}
-
-
